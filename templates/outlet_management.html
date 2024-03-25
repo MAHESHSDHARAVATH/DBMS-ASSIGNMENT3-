@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlet Management</title>
+    <link rel="stylesheet" type="text/css" href="/static/outlet_management.css">
+</head>
+<body>
+    <header>
+    <div class="header-left">
+        <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
+        <h1 class="title">Outlet Management</h1>
+    </div>
+    <div class="header-right">
+        <img src="/static/logo.png" alt="Logout" class="logout-icon">
+    </div>
+</header>
+
+    <aside id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="#">Outlet Management</a></li>
+                <li><a href="#">Stakeholder Details</a></li>
+            </ul>
+        </nav>
+    </aside>
+    <main>
+        <div class="content-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
+            <table>
+            <thead>
+                <tr>
+                    <th>Outlet Name</th>
+                    <th>Timing</th>
+                    <th>Rating</th>
+                    <th>Phone Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ATUL BAKERY</td>
+                    <td>8:00 AM - 8:00 PM</td>
+                    <td>4.5</td>
+                    <td>123-456-7890</td>
+                </tr>
+                <tr>
+                    <td>DAWAT FOOD</td>
+                    <td>10:00 AM - 10:00 PM</td>
+                    <td>4.2</td>
+                    <td>987-654-3210</td>
+                </tr>
+                <tr>
+                    <td>MAHAVEER HEALTHY FOOD</td>
+                    <td>9:00 AM - 9:00 PM</td>
+                    <td>4.0</td>
+                    <td>456-789-0123</td>
+                </tr>
+                <tr>
+                    <td>TEA POST</td>
+                    <td>7:00 AM - 7:00 PM</td>
+                    <td>4.7</td>
+                    <td>789-012-3456</td>
+                </tr>
+                <tr>
+                    <td>VS FAST FOOD</td>
+                    <td>11:00 AM - 11:00 PM</td>
+                    <td>4.3</td>
+                    <td>210-987-6543</td>
+                </tr>
+                <tr>
+                    <td>GO INSTA</td>
+                    <td>8:30 AM - 8:30 PM</td>
+                    <td>4.8</td>
+                    <td>345-678-9012</td>
+                </tr>
+                <tr>
+                    <td>POOJA STATIONARY</td>
+                    <td>9:30 AM - 9:30 PM</td>
+                    <td>4.1</td>
+                    <td>678-901-2345</td>
+                </tr>
+                <tr>
+                    <td>MONDEGO RESTAURANT</td>
+                    <td>8:00 AM - 8:00 PM</td>
+                    <td>4.4</td>
+                    <td>901-234-5678</td>
+                </tr>
+                <tr>
+                    <td>2 DEGREE CAFE</td>
+                    <td>10:30 AM - 10:30 PM</td>
+                    <td>4.6</td>
+                    <td>543-210-9876</td>
+                </tr>
+                <tr>
+                    <td>MINI 2 DEGREE</td>
+                    <td>11:30 AM - 11:30 PM</td>
+                    <td>4.2</td>
+                    <td>012-345-6789</td>
+                </tr>
+                <tr>
+                    <td>SAMYAK SHOP</td>
+                    <td>7:30 AM - 7:30 PM</td>
+                    <td>4.3</td>
+                    <td>678-901-2345</td>
+                </tr>
+                
+                <tr>
+                    <td>AMUL SHOP</td>
+                    <td>9:00 AM - 9:00 PM</td>
+                    <td>4.7</td>
+                    <td>456-789-0123</td>
+                </tr>
+                <tr>
+                    <td>KRUPA GENERALS</td>
+                    <td>10:00 AM - 10:00 PM</td>
+                    <td>4.0</td>
+                    <td>123-456-7890</td>
+                </tr>
+                <tr>
+                    <td>JUST CHILL CAFE</td>
+                    <td>8:00 AM - 8:00 PM</td>
+                    <td>4.2</td>
+                    <td>987-654-3210</td>
+                </tr>
+                <tr>
+                    <td>JK GROCERY</td>
+                    <td>9:30 AM - 9:30 PM</td>
+                    <td>4.6</td>
+                    <td>678-901-2345</td>
+                </tr>
+                <tr>
+                    <td>MIDAS TOUCH SALON</td>
+                    <td>10 AM - 7:30 PM</td>
+                    <td>3.6</td>
+                    <td>489-784-1245</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer>
+    <!-- Footer content goes here -->
+</footer>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+</script>
+</body>
+</html>
