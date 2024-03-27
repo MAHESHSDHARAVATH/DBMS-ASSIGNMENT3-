@@ -15,6 +15,13 @@ header {
     align-items: center;
 }
 
+.button-container {
+    position: absolute;
+    width: 300px; 
+    height: 100px;
+    top: 90px;
+    right:60px;
+}
 .menu-icon {
     font-size: 24px;
     cursor: pointer;

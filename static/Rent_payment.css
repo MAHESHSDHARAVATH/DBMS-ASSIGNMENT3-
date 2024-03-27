@@ -78,6 +78,13 @@ main {
     width: 50%; /* Adjust as needed */
 }
 
+.button-container {
+    position: absolute;
+    width: 300px; 
+    height: 100px;
+    top: 90px;
+    right:60px;
+}
 table {
     width: 80%; /* Adjust as needed */
     border-collapse: collapse;
