@@ -36,5 +36,21 @@ def login_user():
 def outlet_management():
     return render_template("outlet_management.html")
 
+@app.route("/stakeholder_details")
+def  stakeholder_details():
+    return render_template("stakeholder_details.html")
+
+@app.route("/Customer_feedback")
+def Customer_feedback():
+    return render_template("Customer_feedback.html")
+
+@app.route("/Rent_details")
+def Rent_details():
+    return render_template( "Rent_payment.html" )
+
+@app.route("/Survey_details")
+def Survey_details():
+    return render_template("survey.html")
+
 if __name__ == "__main__":
     app.run(debug=True)

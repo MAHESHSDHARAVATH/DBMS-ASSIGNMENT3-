@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlet Management</title>
+    <link rel="stylesheet" type="text/css" href="/static/survey.css">
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
+            <h1 class="title">Survey Details</h1>
+        </div>
+        <div class="header-right">
+            <img src="/static/logo.png" alt="Logout" class="logout-icon">
+        </div>
+    </header>
+
+    <aside id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
+                <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
+                <li><a href="{{url_for('Customer_feedback')}}">Customer feedback</a></li>
+                <li><a href="{{url_for('Rent_details')}}">Rent details</a></li>
+                <li><a href="{{url_for('Survey_details')}}">Survey Details</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="content-container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Outlet Name</th>
+                        <th>Date of Survey</th>
+                        <th>Description</th>
+                        <th>Warning Issued</th>
+                        <th>Penalty Amount</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Atul Bakery</td>
+                    <td>2023-01-01</td>
+                    <td>Clealiness issue observed in the restroom area</td>
+                    <td>Yes</td>
+                    <td>150</td>
+                    
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Dawat Foods</td>
+                    <td>2023-01-05</td>
+                    <td>Kitchen equipment needs maintanence</td>
+                    <td>Yes</td>
+                    <td>200</td>
+                    
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Mahaveer Healthy Foods</td>
+                    <td>2023-01-10</td>
+                    <td>Customer Complaints regarding slow service</td>
+                    <td>Yes</td>
+                    <td>100</td>
+
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Tea Post</td>
+                    <td>2023-01-15</td>
+                    <td>Everything working efficiently</td>
+                    <td>N0</td>
+                    <td>0</td>
+
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>VS Fast Food</td>
+                    <td>2023-01-20</td>
+                    <td>Good Conditions</td>
+                    <td>No</td>
+                    <td>0</td>  
+                   
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Go Insta</td>
+                    <td>2023-01-25</td>
+                    <td>Unsanitary conditions observed in the dining area</td>
+                    <td>N0</td>
+                    <td>80</td>
+
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Pooja Stationary</td>
+                    <td>2023-02-01</td>
+                    <td>Safety hazard identified in the outdoor Seating Area</td>
+                    <td>Yes</td>
+                    <td>250</td>
+                    
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Mondego Restaurant</td>
+                    <td>2023-02-05</td>
+                    <td>Inventory Management issues reported</td>
+                    <td>Yes</td>
+                    <td>150</td>   
+                    
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>2 Degree Cafe</td>
+                    <td>2023-02-10</td>
+                    <td>Well maintained in all scope</td>
+                    <td>No</td>
+                    <td>0</td>  
+                  
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>Samyak Shop</td>
+                    <td>2023-02-15</td>
+                    <td>Hygiene Standards are not met in the food prepration</td>
+                    <td>Yes</td>
+                    <td>200</td>    
+                    
+                </tr>
+            </tbody>
+        </table>
+        <div class="button-container">
+            <button id="add-button">Add</button>
+            <button id="edit-button" disabled>Edit</button>
+            <button id="delete-button" disabled>Delete</button>
+        </div>
+    </div>
+</main>
+
+<footer>
+    </footer>
+
+<script>
+        function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+    }
+            function updateButtonStates() {
+                const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+                const numSelected = selectedCheckboxes.length;
+    
+                document.getElementById('add-button').disabled = numSelected > 0;
+                document.getElementById('edit-button').disabled = numSelected !== 1;
+                document.getElementById('delete-button').disabled = numSelected <= 0;
+            }
+    
+            document.querySelector('tbody').addEventListener('change', updateButtonStates);
+    
+            document.getElementById('add-button').addEventListener('click', function() {
+                addTableRow();
+                updateButtonStates();
+            });
+    
+            document.getElementById('edit-button').addEventListener('click', function() {
+                const selectedRow = document.querySelector('tbody input[type="checkbox"]:checked').parentNode.parentNode;
+                makeRowEditable(selectedRow);
+            });
+    
+            document.getElementById('delete-button').addEventListener('click', function() {
+                const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+                selectedCheckboxes.forEach(checkbox => {
+                    checkbox.parentNode.parentNode.remove();
+                });
+                updateButtonStates();
+            });
+    
+            function addTableRow() {
+                const tableBody = document.querySelector('tbody');
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td><input type="checkbox"></td>
+                    <td><input type="text" placeholder="Outlet Name"></td>
+                    <td><input type="text" placeholder="Date of Survey"></td>
+                    <td><input type="text" placeholder="Description"></td>
+                    <td><input type="text" placeholder="Warning Issued"></td>
+                    <td><input type="text" placeholder="Penalty Amount"></td>
+                    
+                    
+                `;
+                tableBody.appendChild(newRow);
+            }
+    
+            function makeRowEditable(row) {
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => {
+                    const text = cell.innerText;
+                    cell.innerHTML = `<input type="text" value="${text}">`;
+                });
+            }
+    
+            updateButtonStates();
+</script>
+</body>
+</html>

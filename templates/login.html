@@ -30,6 +30,15 @@
             <label for="pswrd">Your password</label>
             <input type="password" id="pswrd" placeholder="Enter Password" name="pswrd" required>
 
+            <!-- Container for Select User label and dropdown -->
+            <div class="userTypeContainer">
+                <label for="userType">Select User:</label>
+                <select id="userType" name="userType">
+                    <option value="stakeholder">Stakeholder</option>
+                    <option value="student">Student</option>
+                </select>
+            </div>
+
             <!-- sub container for the checkbox and forgot password link -->
             <div class="subcontainer">
                 <label>
@@ -37,7 +46,6 @@
                 </label>
                 <p class="forgotpsd"> <a href="#">Forgot Password?</a></p>
             </div>
-
 
             <!-- Submit button -->
             <button type="submit">Login</button>

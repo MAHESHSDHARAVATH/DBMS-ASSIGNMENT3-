@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\GATE\IIT Gandhingar\SEMESTER-2\DataBase\Assignmnet-3\venv"
+VIRTUAL_ENV="E:\GATE\IIT Gandhingar\SEMESTER-2\DataBase\Assignmnet-3\databases_g1_a3\Assignment 3\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
