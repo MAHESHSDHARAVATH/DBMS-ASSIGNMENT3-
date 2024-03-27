@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page</title>
+    <link rel="stylesheet" type="text/css" href="/static/login.css">
+</head>
+<body>
+    <form action="/login" method="post">
+        <h1>Outlet Management @ IITGN</h1>
+
+        <!-- Headings for the form -->
+        <div class="headingsContainer">
+            <img src="/static/logo.png" alt="Image" width="200" height="200">
+            <h3>Sign in</h3>
+            <p>Please login to your account</p>
+        </div>
+
+        <!-- Main container for all inputs -->
+        <div class="mainContainer">
+            <!-- Username or Email Id-->
+            <label for="username">Username/Email ID</label>
+            <input type="text" id="username" placeholder="Enter Username or Email ID" name="username" required>
+
+            <br><br>
+
+            <!-- Password -->
+            <label for="pswrd">Your password</label>
+            <input type="password" id="pswrd" placeholder="Enter Password" name="pswrd" required>
+
+            <!-- sub container for the checkbox and forgot password link -->
+            <div class="subcontainer">
+                <label>
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+                <p class="forgotpsd"> <a href="#">Forgot Password?</a></p>
+            </div>
+
+
+            <!-- Submit button -->
+            <button type="submit">Login</button>
+
+            <!-- Sign up link -->
+            <p class="register">Don't have an account?  <a href="signup.html">Create One</a></p>
+
+        </div>
+
+    </form>
+</body>
+</html>
