@@ -47,97 +47,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Atul Bakery</td>
-                    <td>2023-01-01</td>
-                    <td>Clealiness issue observed in the restroom area</td>
-                    <td>Yes</td>
-                    <td>150</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Dawat Foods</td>
-                    <td>2023-01-05</td>
-                    <td>Kitchen equipment needs maintanence</td>
-                    <td>Yes</td>
-                    <td>200</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Mahaveer Healthy Foods</td>
-                    <td>2023-01-10</td>
-                    <td>Customer Complaints regarding slow service</td>
-                    <td>Yes</td>
-                    <td>100</td>
-
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Tea Post</td>
-                    <td>2023-01-15</td>
-                    <td>Everything working efficiently</td>
-                    <td>N0</td>
-                    <td>0</td>
-
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>VS Fast Food</td>
-                    <td>2023-01-20</td>
-                    <td>Good Conditions</td>
-                    <td>No</td>
-                    <td>0</td>  
-                   
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Go Insta</td>
-                    <td>2023-01-25</td>
-                    <td>Unsanitary conditions observed in the dining area</td>
-                    <td>N0</td>
-                    <td>80</td>
-
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Pooja Stationary</td>
-                    <td>2023-02-01</td>
-                    <td>Safety hazard identified in the outdoor Seating Area</td>
-                    <td>Yes</td>
-                    <td>250</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Mondego Restaurant</td>
-                    <td>2023-02-05</td>
-                    <td>Inventory Management issues reported</td>
-                    <td>Yes</td>
-                    <td>150</td>   
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>2 Degree Cafe</td>
-                    <td>2023-02-10</td>
-                    <td>Well maintained in all scope</td>
-                    <td>No</td>
-                    <td>0</td>  
-                  
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Samyak Shop</td>
-                    <td>2023-02-15</td>
-                    <td>Hygiene Standards are not met in the food prepration</td>
-                    <td>Yes</td>
-                    <td>200</td>    
-                    
-                </tr>
-            </tbody>
+                    {% for survey in surveys %}
+                    <tr>
+                        <td><input type="checkbox" name="selected[]" value="{{ survey[0] }}"></td> <!-- Assuming row[0] is the unique ID -->
+                        <td>{{ survey[1] }}</td> <!-- Outlet Name -->
+                        <td>{{ survey[2] }}</td> <!-- Date of Survey -->
+                        <td>{{ survey[3] }}</td> <!-- Description -->
+                        <td>{{ survey[4] }}</td> <!-- Warning Issued -->
+                        <td>{{ survey[5] }}</td> <!-- Penalty -->
+                    </tr>
+                    {% endfor %}
+                
+                </tbody>
         </table>
         <div class="button-container">
             <button id="add-button">Add</button>

@@ -42,187 +42,23 @@
                         <th>Select</th>
                         <th>Outlet Name</th>
                         <th>Location</th>
-                        <th>Contract No</th>
+                        <th>Contact</th>
                         <th>Timing</th>
-                        <th>Phone Number</th>
                         <th>Rating</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Existing table rows -->
+                    {% for outlet in outlets %}
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td>ATUL BAKERY</td>
-                        <td>Location 1</td>
-                        <td>ContractFY21</td>
-                        <td>8:00 AM - 8:00 PM</td>
-                        <td>123-456-7890</td>
-                        <td>4.5</td>
+                        <td><input type="checkbox" name="selected[]" value="{{ outlet[0] }}"></td>
+                        <td>{{ outlet[1] }}</td>
+                        <td>{{ outlet[2] }}</td>
+                        <td>{{ outlet[3] }}</td>
+                        <td>{{ outlet[4] }}</td>
+                        <td>{{ outlet[5] }}</td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>DAWAT FOOD</td>
-                        <td>Location 2</td>
-                        <td>ContractFY22</td>
-                        <td>10:00 AM - 10:00 PM</td>
-                        <td>987-654-3210</td>
-                        <td>4.2</td>
-                       
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>MAHAVEER HEALTHY FOOD</td>
-                        <td>Location 3</td>
-                        <td>ContractFY23</td>
-                        <td>9:00 AM - 9:00 PM</td>
-                        <td>456-789-0123</td>
-                        <td>4.0</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>TEA POST</td>
-                        <td>Location 4</td>
-                        <td>ContractFY24</td>
-                        <td>7:00 AM - 7:00 PM</td>
-                        <td>789-012-3456</td>
-                        <td>4.7</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>VS FAST FOOD</td>
-                        <td>Location 5</td>
-                        <td>ContractFY25</td>
-                        <td>11:00 AM - 11:00 PM</td>
-                        <td>210-987-6543</td>
-                        <td>4.3</td>
-                       
-                       
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox">
-                        </td><td>GO INSTA</td>
-                        <td>Location 6</td>
-                        <td>ContractFY26</td>
-                        <td>8:30 AM - 8:30 PM</td>
-                        <td>345-678-9012</td>
-                        <td>4.8</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>POOJA STATIONARY</td>
-                        <td>Location 7</td>
-                        <td>ContractFY27</td>
-                        <td>9:30 AM - 9:30 PM</td>
-                        <td>678-901-2345</td>
-                        <td>4.1</td>
+                    {% endfor %}
                     
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>MONDEGO RESTAURANT</td>
-                        <td>Location 8</td>
-                        <td>ContractFY28</td>
-                        <td>8:00 AM - 8:00 PM</td>
-                        <td>901-234-5678</td>
-                        <td>4.4</td>
-                        
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>2 DEGREE CAFE</td>
-                        <td>Location 9</td>
-                        <td>ContractFY29</td>
-                        <td>10:30 AM - 10:30 PM</td>
-                        <td>543-210-9876</td>
-                        <td>4.6</td>
-                       
-                      
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>MINI 2 DEGREE</td>
-                        <td>Location 10</td>
-                        <td>ContractFY30</td>
-                        <td>11:30 AM - 11:30 PM</td>
-                        <td>012-345-6789</td>
-                        <td>4.2</td>
-                        
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>SAMYAK SHOP</td>
-                        <td>Location 11</td>
-                        <td>ContractFY31</td>
-                        <td>7:30 AM - 7:30 PM</td>
-                        <td>678-901-2345</td>
-                        <td>4.3</td>
-                      
-                       
-                    </tr>
-                    
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>AMUL SHOP</td>
-                        <td>Location 12</td>
-                        <td>ContractFY31</td>
-                        <td>9:00 AM - 9:00 PM</td>
-                        <td>456-789-0123</td>
-                        <td>4.7</td>
-                        
-                       
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox">
-                        </td><td>KRUPA GENERALS</td>
-                        <td>Location 13</td>
-                        <td>ContractFY32</td>
-                        <td>10:00 AM - 10:00 PM</td>
-                        <td>123-456-7890</td>
-                        <td>4.0</td>
-                      
-                       
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>JUST CHILL CAFE</td>
-                        <td>Location 14</td>
-                        <td>ContractFY33</td>
-                        <td>8:00 AM - 8:00 PM</td>
-                        <td>987-654-3210</td>
-                        <td>4.2</td>
-                        
-                       
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>JK GROCERY</td>
-                        <td>Location 15</td>
-                        <td>ContractFY34</td>
-                        <td>9:30 AM - 9:30 PM</td>
-                        <td>678-901-2345</td>
-                        <td>4.6</td>
-                      
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>MIDAS TOUCH SALON</td>
-                        <td>Location 16</td>
-                        <td>ContractFY35</td>
-                        <td>10 AM - 7:30 PM</td>
-                        <td>489-784-1245</td>
-                        <td>3.6</td>
-                      
-                        
-                    </tr>
-                    <!-- Add more rows as needed -->
                 </tbody>
             </table>
             <div class="button-container">
@@ -282,9 +118,8 @@
                 <td><input type="checkbox"></td>
                 <td><input type="text" placeholder="Outlet Name"></td>
                 <td><input type="text" placeholder="Location"></td>
-                <td><input type="text" placeholder="Contract No"></td>
+                <td><input type="text" placeholder="Contact No"></td>
                 <td><input type="text" placeholder="Timing"></td>
-                <td><input type="text" placeholder="Phone Number"></td>
                 <td><input type="text" placeholder="Rating"></td>
             `;
             tableBody.appendChild(newRow);

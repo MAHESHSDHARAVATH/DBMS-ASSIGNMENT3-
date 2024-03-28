@@ -49,115 +49,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Atul Bakery</td>
-                    <td>Cash</td>
-                    <td>8000.00</td>
-                    <td>2023-09-01</td>
-                    <td>2023-09-30</td>
-                    <td>0.00</td>
-                    
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Dawat Foods</td>
-                    <td>Credit Card</td>
-                    <td>6200.00</td>
-                    <td>2023-09-01</td>
-                    <td>2023-09-30</td>
-                    <td>1200.00</td>
-                   
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Tea Post</td>
-                    <td>Debit Card</td>
-                    <td>9500.00</td>
-                    <td>2023-07-01</td>
-                    <td>2023-07-31</td>
-                    <td>0.00</td>
-
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>VS Fast Food</td>
-                    <td>Bank transfer</td>
-                    <td>7000.00</td>
-                    <td>2023-07-01</td>
-                    <td>2023-07-31</td>
-                    <td>0.00</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Go Insta</td>
-                    <td>Cash</td>
-                    <td>7200.00</td>
-                    <td>2023-08-01</td>
-                    <td>2023-08-31</td>
-                    <td>0.00</td>
-                   
-                   
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Krupa Generals</td>
-                    <td>Credit Card</td>
-                    <td>4500.00</td>
-                    <td>2023-10-01</td>
-                    <td>2023-10-31</td>
-                    <td>800.00</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Samyak Shop</td>
-                    <td>Debit Card</td>
-                    <td>5800.00</td>
-                    <td>2023-11-01</td>
-                    <td>2023-11-30</td>
-                    <td>0.00</td>
-                
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Amul Shop</td>
-                    <td>Bank Transfer</td>
-                    <td>6500.00</td>
-                    <td>2023-12-01</td>
-                    <td>2023-12-31</td>
-                    <td>0.00</td>
-                    
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Mondego Restaurant</td>
-                    <td>Cash</td>
-                    <td>2300.00</td>
-                    <td>2023-08-01</td>
-                    <td>2023-08-31</td>
-                    <td>0.00</td>
-                   
-                  
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Just Chill Cafe</td>
-                    <td>Credit Card</td>
-                    <td>2400.00</td>
-                    <td>2023-07-01</td>
-                    <td>2023-07-31</td>
-                    <td>2200.00</td>
-                    
-                    
-                </tr>
-
-            </tbody>
+                    {% for rent_payment in rent_payments %}
+                    <tr>
+                        <td><input type="checkbox" name="selected[]" value="{{ rent_payment[0] }}"></td> <!-- Assuming rent_payment[0] is the Outlet_ID -->
+                        <td>{{ rent_payment[1] }}</td> <!-- Outlet Name -->
+                        <td>{{ rent_payment[2] }}</td> <!-- Mode of Payment -->
+                        <td>{{ rent_payment[3] }}</td> <!-- Paid Amount -->
+                        <td>{{ rent_payment[4] }}</td> <!-- Rent From Date -->
+                        <td>{{ rent_payment[5] }}</td> <!-- Rent To Date -->
+                        <td>{{ rent_payment[6] }}</td> <!-- Due Amount -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
         </table>
         <div class="button-container">
             <button id="add-button">Add</button>

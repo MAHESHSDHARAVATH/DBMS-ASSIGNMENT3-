@@ -41,53 +41,22 @@
                         <th>Name</th>
                         <th>Email ID</th>
                         <th>Position</th>
-                        <th>Phone Number</th>
                         <th>Entry Date</th>
                         <th>Exit Date</th>
                         
                     </tr>
                 </thead>
                 <tbody>
+                    {% for row in data %}
                     <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Nakul S Raj</td>
-                        <td>snakul@iitgn.ac.in</td>
-                        <td>ATUL BAKERY, DAWAT FOOD, SAMYAK SHOP, AMUL SHOP</td>
-                        <td>123-456-7890</td>
-                        <td>12/12/2023</td>
-                        <td>12/12/2024</td>
-                        
+                        <td><input type="checkbox" name="selected[]" value="{{ row[0] }}"></td> <!-- Assuming row[0] is the unique ID -->
+                        <td>{{ row[1] }}</td> <!-- Name -->
+                        <td>{{ row[2] }}</td> <!-- Email ID -->
+                        <td>{{ row[3] }}</td> <!-- Position -->
+                        <td>{{ row[4] }}</td> <!-- Entry Date -->
+                        <td>{{ row[5] }}</td> <!-- Exit Date -->
                     </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Harshvardhan Wala</td>
-                        <td> harshvardhan.vala@iitgn.ac.in</td>
-                        <td>TEA POST, VS FAST FOOD, GO INSTA, MONDEGO RESTAURANT</td>
-                        <td>987-654-3210</td>
-                        <td>12/12/2023</td>
-                        <td>12/12/2024</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Ramshingh</td>
-                        <td>ramsingh@iitgn.ac.in </td>
-                        <td>MAHAVEER HEALTHY FOOD, JUST CHILL CAFE, JK GROCERY</td>
-                        <td>456-789-0123</td>
-                        <td>12/12/2023</td>
-                        <td>12/12/2024</td>
-                        
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox"></td>
-                        <td>Prasad Makhana</td>
-                        <td>makhana.p@iitgn.ac.in </td>
-                        <td>2 DEGREE CAFE, MINI 2 DEGREE, KRUPA GENERALS, MIDAS TOUCH SALON</td>
-                        <td>789-012-3456</td>
-                        <td>12/12/2023</td>
-                        <td>12/12/2024</td>
-                     
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             <div class="button-container">
@@ -147,7 +116,6 @@
                     <td><input type="text" placeholder="Name"></td>
                     <td><input type="text" placeholder="Email ID"></td>
                     <td><input type="text" placeholder="Position"></td>
-                    <td><input type="text" placeholder="Phone Number"></td>
                     <td><input type="text" placeholder="Entry Date"></td>
                     <td><input type="text" placeholder="Exit Date"></td>
                 `;
