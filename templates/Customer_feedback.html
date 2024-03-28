@@ -45,82 +45,15 @@
 
                 </thead>
                 <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Atul Bakery</td>
-                    <td>customer1@gmail.com</td>
-                    <td>4.5</td>   
-                </tr>
-
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Dawat Foods</td>
-                    <td>NULL</td>
-                    <td>4.2</td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Mahaveer Healthy Foods</td>
-                    <td>customer3@gmail.com</td>
-                    <td>4.8</td>
-
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Tea Post</td>
-                    <td>NULL</td>
-                    <td>3.9</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>VS fast Food</td>
-                    <td>customer5@gmail.com</td>
-                    <td>4.1</td>
-                   
-                   
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Go Insta</td>
-                    <td>NULL</td>
-                    <td>4.6</td>
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Pooja Stationary</td>
-                    <td>customer7@gmail.com</td>
-                    <td>3.7</td>
-                
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>2 Degree Cafe</td>
-                    <td>NULL</td>
-                    <td>4.9</td>
-                    
-                    
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Samyak Shop</td>
-                    <td>customer9@gmail.com</td>
-                    <td>4.3</td>
-                   
-                  
-                </tr>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>Krupa Generals</td>
-                    <td>NULL</td>
-                    <td>4.7</td>
-                    
-                    
-                </tr>
-
-            </tbody>
+                    {% for feedback in feedback_data %}
+                    <tr>
+                        <td><input type="checkbox" name="selected[]" value="{{ loop.index }}"></td> <!-- Assuming no unique ID to use here -->
+                        <td>{{ feedback[0] }}</td> <!-- Outlet Name -->
+                        <td>{{ feedback[1] }}</td> <!-- Customer Email -->
+                        <td>{{ feedback[2] }}</td> <!-- Customer Rating -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
         </table>
         <div class="button-container">
             <button id="add-button">Add</button>
