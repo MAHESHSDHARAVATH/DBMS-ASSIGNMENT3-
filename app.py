@@ -42,62 +42,125 @@ def login_user():
         </script>
         """
 
-@app.route("/outlet_management")
+@app.route("/outlet_management", methods=['GET', 'POST'])
 def outlet_management():
     cur = mysql.connection.cursor()
-    query = "SELECT Outlet_ID, Outlet_name, Location_name, Contact_No, timings, Ratings FROM Outlet"
+    if request.method == 'POST':
+        search_term = request.form['searchInput']
+        query = f"SELECT Outlet_ID, Outlet_name, Location_name, Contact_No, timings, Ratings FROM Outlet WHERE Outlet_name LIKE '%{search_term}%'"
+    else:
+        query = "SELECT Outlet_ID, Outlet_name, Location_name, Contact_No, timings, Ratings FROM Outlet"
     cur.execute(query)
     outlets = cur.fetchall()  # Fetch all rows
     cur.close()
     return render_template("outlet_management.html", outlets=outlets)
 
-@app.route("/stakeholder_details")
+@app.route("/stakeholder_details", methods=['GET', 'POST'])
 def  stakeholder_details():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM stakeholder")  # Adjust 'stakeholders' to your table name
+    if request.method == 'POST':
+        search_term = request.form['searchInput']
+        query  = f"SELECT * from stakeholder WHERE name LIKE '%{search_term}%'"
+    else:
+        query = "SELECT * FROM stakeholder"
+    cur.execute(query)  # Adjust 'stakeholders' to your table name
     data = cur.fetchall()
     cur.close()
     return render_template("stakeholder_details.html", data=data)
 
-@app.route("/Customer_feedback")
+@app.route("/Customer_feedback", methods=['GET', 'POST'])
 def Customer_feedback():
     cur = mysql.connection.cursor()
-    # SQL query to join Customer_feedback with Outlet on Outlet_ID and select necessary columns
-    query = """
-    SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
-    FROM Customer_feedback cf
-    JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
-    """
-    cur.execute(query)
+    
+    # Check if it's a POST request to handle the search, otherwise display all records
+    if request.method == 'POST':
+        search_term = request.form['searchInput']
+        query = """
+        SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
+        FROM Customer_feedback cf
+        JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
+        WHERE o.Outlet_name LIKE %s
+        """
+        cur.execute(query, ['%' + search_term + '%'])
+    else:
+        query = """
+        SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
+        FROM Customer_feedback cf
+        JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
+        """
+        cur.execute(query)
+
     feedback_data = cur.fetchall()  # Fetch all rows of joined tables
     cur.close()
     return render_template("Customer_feedback.html", feedback_data=feedback_data)
 
-@app.route("/Rent_details")
+@app.route("/Rent_details", methods=['GET', 'POST'])
 def Rent_details():
     cur = mysql.connection.cursor()
-    query = """
-    SELECT Rent_payment.Outlet_ID, Outlet.Outlet_name, Rent_payment.Mode_of_payment, 
-           Rent_payment.Paid_amount, Rent_payment.Rent_from_date, Rent_payment.Rent_to_date, 
-           Rent_payment.Due_amount
-    FROM Rent_payment
-    INNER JOIN Outlet ON Rent_payment.Outlet_ID = Outlet.Outlet_ID
-    """
-    cur.execute(query)
+    
+    # Adjust the query based on whether it's a POST request (search operation) or not
+    if request.method == 'POST':
+        search_term = request.form['searchInput']
+        query = """
+        SELECT Rent_payment.Outlet_ID, Outlet.Outlet_name, Rent_payment.Mode_of_payment, 
+               Rent_payment.Paid_amount, Rent_payment.Rent_from_date, Rent_payment.Rent_to_date, 
+               Rent_payment.Due_amount
+        FROM Rent_payment
+        INNER JOIN Outlet ON Rent_payment.Outlet_ID = Outlet.Outlet_ID
+        WHERE Outlet.Outlet_name LIKE %s
+        """
+        cur.execute(query, ['%' + search_term + '%'])
+    else:
+        query = """
+        SELECT Rent_payment.Outlet_ID, Outlet.Outlet_name, Rent_payment.Mode_of_payment, 
+               Rent_payment.Paid_amount, Rent_payment.Rent_from_date, Rent_payment.Rent_to_date, 
+               Rent_payment.Due_amount
+        FROM Rent_payment
+        INNER JOIN Outlet ON Rent_payment.Outlet_ID = Outlet.Outlet_ID
+        """
+        cur.execute(query)
+    
     rent_payments = cur.fetchall()
     cur.close()
     return render_template("Rent_payment.html", rent_payments=rent_payments)
 
-@app.route("/Survey_details")
+@app.route("/Survey_details", methods=['GET', 'POST'])
 def Survey_details():
     cur = mysql.connection.cursor()
-    query = """
-    SELECT S.Survey_ID, O.Outlet_name, S.Date_of_survey, ST.name, S.Description, S.Warning_issued, S.Penalty_amount
-    FROM Survey S
-    INNER JOIN Outlet O ON S.Outlet_ID = O.Outlet_ID
-    INNER JOIN stakeholder ST ON O.stakeholder_ID = ST.stakeholder_ID;  
-    """
-    cur.execute(query)
+    
+    if request.method == 'POST':
+        outlet_name = request.form.get('outletName', '')  #To avoid Key error exception hence used get too.
+        warning_issued = request.form.get('warningIssued', '')  
+        
+        # Base query
+        query = """
+        SELECT s.Survey_ID, o.Outlet_name, s.Date_of_survey, st.name, s.Description, s.Warning_issued, s.Penalty_amount
+        FROM Survey s
+        JOIN Outlet o ON s.Outlet_ID = o.Outlet_ID
+        JOIN Stakeholder st ON s.Stakeholder_ID = st.Stakeholder_ID
+        WHERE 1=1
+        """
+        
+        # Filtering conditions to avoid SQL injection hence DYnamic Query
+        parameters = []
+        if outlet_name:
+            query += " AND o.Outlet_name LIKE %s"
+            parameters.append('%' + outlet_name + '%')
+        if warning_issued in ['Yes', 'No']:
+            query += " AND s.Warning_issued = %s"
+            parameters.append(warning_issued)
+        
+        cur.execute(query, parameters)
+    else:
+        # Initial page load without any filters
+        query = """
+        SELECT s.Survey_ID, o.Outlet_name, s.Date_of_survey, st.name, s.Description, s.Warning_issued, s.Penalty_amount
+        FROM Survey s
+        JOIN Outlet o ON s.Outlet_ID = o.Outlet_ID
+        JOIN Stakeholder st ON s.Stakeholder_ID = st.Stakeholder_ID
+        """
+        cur.execute(query)
+
     surveys = cur.fetchall()
     cur.close()
     return  render_template("survey.html",surveys=surveys)
