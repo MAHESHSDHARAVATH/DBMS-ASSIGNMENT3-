@@ -92,9 +92,10 @@ def Rent_details():
 def Survey_details():
     cur = mysql.connection.cursor()
     query = """
-    SELECT O.Outlet_ID, O.Outlet_name, S.Date_of_survey, S.Description, S.Warning_issued, S.Penalty_amount
-    FROM  Survey S
-    INNER JOIN Outlet O ON S.Outlet_ID = O.Outlet_ID;  
+    SELECT S.Survey_ID, O.Outlet_name, S.Date_of_survey, ST.name, S.Description, S.Warning_issued, S.Penalty_amount
+    FROM Survey S
+    INNER JOIN Outlet O ON S.Outlet_ID = O.Outlet_ID
+    INNER JOIN stakeholder ST ON O.stakeholder_ID = ST.stakeholder_ID;  
     """
     cur.execute(query)
     surveys = cur.fetchall()

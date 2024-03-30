@@ -40,6 +40,7 @@
                         <th>Select</th>
                         <th>Outlet Name</th>
                         <th>Date of Survey</th>
+                        <th>Stakeholder name</th>
                         <th>Description</th>
                         <th>Warning Issued</th>
                         <th>Penalty Amount</th>
@@ -52,9 +53,10 @@
                         <td><input type="checkbox" name="selected[]" value="{{ survey[0] }}"></td> <!-- Assuming row[0] is the unique ID -->
                         <td>{{ survey[1] }}</td> <!-- Outlet Name -->
                         <td>{{ survey[2] }}</td> <!-- Date of Survey -->
-                        <td>{{ survey[3] }}</td> <!-- Description -->
-                        <td>{{ survey[4] }}</td> <!-- Warning Issued -->
-                        <td>{{ survey[5] }}</td> <!-- Penalty -->
+                        <td>{{ survey[3] }}</td> <!-- Stakeholder -->
+                        <td>{{ survey[4] }}</td> <!-- Description -->
+                        <td>{{ survey[5] }}</td> <!-- Warning Issued -->
+                        <td>{{ survey[6] }}</td> <!-- Penalty -->
                     </tr>
                     {% endfor %}
                 
@@ -116,6 +118,7 @@
                     <td><input type="checkbox"></td>
                     <td><input type="text" placeholder="Outlet Name"></td>
                     <td><input type="text" placeholder="Date of Survey"></td>
+                    <td><input type="text" placeholder="Stakeholder"></td>
                     <td><input type="text" placeholder="Description"></td>
                     <td><input type="text" placeholder="Warning Issued"></td>
                     <td><input type="text" placeholder="Penalty Amount"></td>
