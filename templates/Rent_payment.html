@@ -31,9 +31,10 @@
 
     <main>
         <div class="content-container">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search...">
-            </div>
+            <form method="POST" action="/Rent_details">
+                <input type="text" name="searchInput" placeholder="Search Outlet...">
+                <button type="submit">Search</button>
+            </form>
             <table>
                 <thead>
                     <tr>
@@ -44,8 +45,6 @@
                         <th>Rent from date</th>
                         <th>Rent to date</th>
                         <th>Due amount</th>
-                        
-                       
                     </tr>
                 </thead>
                 <tbody>
