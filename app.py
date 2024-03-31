@@ -6,7 +6,7 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
@@ -61,6 +61,24 @@ def outlet_management():
     outlets = cur.fetchall()  # Fetch all rows
     cur.close()
     return render_template("outlet_management.html", outlets=outlets)
+
+#INSERT FEATURE
+@app.route('/insert_outlet', methods = ['POST'])
+def insert_outlet():
+    if request.method == "POST":
+        flash("Data Inserted Successfully")
+        name = request.form['name']
+        Location = request.form['Location']
+        Contact = request.form['Contact']
+        Timings = request.form['Timings']
+        Contact = request.form['Contact']
+        Rating  = float(request.form['Rating'])
+        import random
+        stakeholder_id = random.randint(1, 15)
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO Outlet (Stakeholder_ID, Outlet_name, Location_name, Contact_No, timings, Ratings) VALUES (%s, %s, %s, %s, %s, %s)", (stakeholder_id, name, Location, Contact, Timings,Rating))
+        mysql.connection.commit()
+        return redirect(url_for('outlet_management'))
 
 
 @app.route("/stakeholder_details", methods=['GET', 'POST'])
