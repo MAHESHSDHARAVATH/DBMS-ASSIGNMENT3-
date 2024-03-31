@@ -22,6 +22,7 @@ header {
     top: 90px;
     right:60px;
 }
+
 .menu-icon {
     font-size: 24px;
     cursor: pointer;
@@ -32,6 +33,18 @@ header {
     width: 30px;
     height: 30px;
     cursor: pointer;
+}
+
+.logout-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.logout-text {
+    margin-left: 5px;
+    font-weight: bold;
 }
 
 h1 {

@@ -12,16 +12,23 @@
             <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
             <h1 class="title">Customer Feedback</h1>
         </div>
+
         <div class="header-right">
+        <a href="/" class="logout-link">
             <img src="/static/logo.png" alt="Logout" class="logout-icon">
-        </div>
-    </header>
+            <span class="logout-text">Logout</span>
+        </a>
+    </div>
+     
+</header>
 
     <aside id="sidebar">
         <nav>
             <ul>
                 <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
                 <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
+                <li><a href="{{url_for('inventory_details')}}">Inventory Details</a></li>
+                <li><a href="{{url_for('employee_details')}}">Employee Details</a></li>
                 <li><a href="{{url_for('Customer_feedback')}}">Customer feedback</a></li>
                 <li><a href="{{url_for('Rent_details')}}">Rent details</a></li>
                 <li><a href="{{url_for('Survey_details')}}">Survey Details</a></li>
@@ -31,10 +38,12 @@
 
     <main>
         <div class="content-container">
-            <form method="POST" action="/Customer_feedback">
-                <input type="text" name="searchInput" placeholder="Search Outlet...">
-                <button type="submit">Search</button>
-            </form>
+            <div class="search-bar">
+                <form method="POST" action="/Customer_feedback">
+                    <input type="text" name="searchInput" placeholder="Search Outlet...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -66,9 +75,18 @@
 </main>
 
 <footer>
-    </footer>
+    &copy; 2024 IIT Gandhinagar. All rights reserverd.
+</footer>
 
 <script>
+    // Logout confirmation
+    document.querySelector('.logout-link').addEventListener('click', function (event) {
+            const confirmLogout = confirm('Are you sure you want to logout?');
+            if (!confirmLogout) {
+                event.preventDefault();  
+            }
+        });
+        
     function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('active');
     }

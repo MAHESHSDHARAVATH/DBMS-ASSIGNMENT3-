@@ -13,7 +13,7 @@
 
         <!-- Headings for the form -->
         <div class="headingsContainer">
-            <img src="/static/logo.png" alt="Image" width="200" height="200">
+            <img src="/static/logo.png" alt="Image" width="150" height="150">
             <h3>Sign in</h3>
             <p>Please login to your account</p>
         </div>
@@ -51,7 +51,8 @@
             <button type="submit">Login</button>
 
             <!-- Sign up link -->
-            <p class="register">Don't have an account?  <a href="signup.html">Create One</a></p>
+            <p class="register">Don't have an account? <a href="{{ url_for('signup') }}">Create One</a></p>
+
 
         </div>
 

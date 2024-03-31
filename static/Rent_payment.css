@@ -27,6 +27,18 @@ header {
     cursor: pointer;
 }
 
+.logout-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+}
+
+.logout-text {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
 h1 {
     text-align: center;
     margin: 0;
@@ -85,6 +97,7 @@ main {
     top: 90px;
     right:60px;
 }
+
 table {
     width: 80%; /* Adjust as needed */
     border-collapse: collapse;
