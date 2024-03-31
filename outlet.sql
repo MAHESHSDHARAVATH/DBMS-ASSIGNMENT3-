@@ -281,8 +281,3 @@ INSERT INTO storing_img(caption, imge) VALUES ('JUST CHILL', LOAD_FILE("C:/Progr
 INSERT INTO storing_img(caption, imge) VALUES ('JK GROCERY', LOAD_FILE("C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/JK.jpeg"));
 
 select  * from storing_img ;
-
-
-
-
-

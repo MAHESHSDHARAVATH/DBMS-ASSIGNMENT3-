@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent Payment</title>
-    <link rel="stylesheet" type="text/css" href="/static/Rent_payment.css">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="/static/Inventory.css">
 </head>
 <body>
     <header>
         <div class="header-left">
             <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
-            <h1 class="title">Rent Payment</h1>
+            <h1 class="title">Inventory Details</h1>
         </div>
 
         <div class="header-right">
-            <a href="/" class="logout-link">
-                <img src="/static/logo.png" alt="Logout" class="logout-icon">
-                <span class="logout-text">Logout</span>
-            </a>
-        </div>
-         
-    </header>
+        <a href="/" class="logout-link">
+            <img src="/static/logo.png" alt="Logout" class="logout-icon">
+            <span class="logout-text">Logout</span>
+        </a>
+    </div>
+     
+</header>
 
     <aside id="sidebar">
         <nav>
@@ -39,8 +39,8 @@
     <main>
         <div class="content-container">
             <div class="search-bar">
-                <form method="POST" action="/Rent_details">
-                    <input type="text" name="searchInput" placeholder="Search Outlet...">
+                <form method="POST" action="/inventory_details">
+                    <input type="text" name="searchInput" placeholder="Search Item...">
                     <button type="submit">Search</button>
                 </form>
             </div>
@@ -48,55 +48,48 @@
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th>Outlet Name</th>
-                        <th>Mode of Payment</th>
-                        <th>Paid amount</th>
-                        <th>Rent from date</th>
-                        <th>Rent to date</th>
-                        <th>Due amount</th>
-                        
-                       
+                        <th>Outlet_name</th>
+                        <th>Item name</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for rent_payment in rent_payments %}
+                    {% for item in items %}
                     <tr>
-                        <td><input type="checkbox" name="selected[]" value="{{ rent_payment[0] }}"></td> <!-- Assuming rent_payment[0] is the Outlet_ID -->
-                        <td>{{ rent_payment[1] }}</td> <!-- Outlet Name -->
-                        <td>{{ rent_payment[2] }}</td> <!-- Mode of Payment -->
-                        <td>{{ rent_payment[3] }}</td> <!-- Paid Amount -->
-                        <td>{{ rent_payment[4] }}</td> <!-- Rent From Date -->
-                        <td>{{ rent_payment[5] }}</td> <!-- Rent To Date -->
-                        <td>{{ rent_payment[6] }}</td> <!-- Due Amount -->
+                        <td><input type="checkbox" name="selected[]" value="{{ item[0] }}"></td>
+                        <td>{{ item[0] }}</td> <!-- Outlet Name -->
+                        <td>{{ item[1] }}</td> <!-- Item Name -->
+                        <td>{{ item[2] }}</td> <!-- Price -->
                     </tr>
                     {% endfor %}
                 </tbody>
-        </table>
-        <div class="button-container">
-            <button id="add-button">Add</button>
-            <button id="edit-button" disabled>Edit</button>
-            <button id="delete-button" disabled>Delete</button>
-            <input id="submit" type="submit" value="Submit">
+            </table>
+            <div class="button-container">
+                <button id="add-button">Add</button>
+                <button id="edit-button" disabled>Edit</button>
+                <button id="delete-button" disabled>Delete</button>
+                <input id="submit" type="submit" value="Submit">
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<footer>
-    &copy; 2024 IIT Gandhinagar. All rights reserverd.
-</footer>
-
-<script>
-    // Logout confirmation
-    document.querySelector('.logout-link').addEventListener('click', function (event) {
+    <footer>
+        &copy; 2024 IIT Gandhinagar. All rights reserverd.
+    </footer>
+    
+    <script>
+        // Logout confirmation
+        document.querySelector('.logout-link').addEventListener('click', function (event) {
             const confirmLogout = confirm('Are you sure you want to logout?');
             if (!confirmLogout) {
                 event.preventDefault();  
             }
         });
-        
-    function toggleSidebar() {
+
+        function toggleSidebar() {
         document.getElementById('sidebar').classList.toggle('active');
     }
+    
             function updateButtonStates() {
                 const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
                 const numSelected = selectedCheckboxes.length;
@@ -125,7 +118,7 @@
                 });
                 updateButtonStates();
             });
-    
+
             document.getElementById('submit').addEventListener('click', function() {
                 submitForm();
             });
@@ -135,13 +128,9 @@
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
                     <td><input type="checkbox"></td>
-                    <td><input type="text" placeholder="Outlet Name"></td>
-                    <td><input type="text" placeholder="Mode of Payment"></td>
-                    <td><input type="text" placeholder="Paid amount"></td>
-                    <td><input type="text" placeholder="Rent from date"></td>
-                    <td><input type="text" placeholder="Rent to date"></td>
-                    <td><input type="text" placeholder="Due amount"></td>
-                    
+                    <td><input type="text" placeholder="Outlet_Name"></td>
+                    <td><input type="text" placeholder="Item_Name"></td>
+                    <td><input type="text" placeholder="Price"></td>
                 `;
                 tableBody.appendChild(newRow);
             }

@@ -7,7 +7,13 @@ body {
 
 h1 {
   text-align: center;
-  margin-top: 30px; /* Add space above the h1 */
+  margin: 20px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 form {
@@ -19,17 +25,17 @@ form {
   background-color: rgba(11, 15, 13, 0.582);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.125);
-  padding: 20px 25px;
-  margin-top: 20px; /* Add space above the form */
+  padding: 10px 25px;
+  margin-top: 10px; 
 }
 
 input[type=text],
 input[type=password],
 select {
   width: 100%;
-  margin: 10px 0;
+  margin: 6px 0;
   border-radius: 5px;
-  padding: 15px 18px;
+  padding: 12px 15px;
   box-sizing: border-box;
 }
 
@@ -38,9 +44,9 @@ button {
   color: white;
   padding: 14px 20px;
   border-radius: 5px;
-  margin: 10px 0; /* Add space below the button */
+  margin-top: 10px 0;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 button:hover {
@@ -50,14 +56,17 @@ button:hover {
 
 .headingsContainer {
   text-align: center;
+  /* margin: 10px; */
 }
 
 .headingsContainer p {
   color: gray;
+  margin: 1px;
+  margin-bottom: 20px;
 }
 
 .mainContainer {
-  padding: 16px;
+  padding: 14px;
 }
 
 .subcontainer {
@@ -68,8 +77,8 @@ button:hover {
 }
 
 .subcontainer a {
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
 span.forgotpsd a {
@@ -102,15 +111,17 @@ span.forgotpsd a {
 .userTypeContainer {
   display: flex;
   align-items: center;
+  margin-top: 10px;
+  /* margin-bottom: 1px; */
 }
 
 .userTypeContainer label {
-  margin-right: 10px; /* Adjust the spacing between label and dropdown */
+  margin-right: 10px; 
 }
 
 /* Adjust the width of the dropdown menu */
 select {
-  width: 130px; /* Adjust as needed */
+  width: 130px;
 }
 
 /* Media queries for the responsiveness of the page */

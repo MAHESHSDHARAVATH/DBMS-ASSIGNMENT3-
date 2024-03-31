@@ -6,8 +6,8 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
-app.config['MYSQL_DB'] = 'Outlet_Management'  # MySQL database name
+app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
+app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
 
@@ -30,7 +30,7 @@ def login_user():
     if email in user_data and user_data[email] == password:
         return """
         <script>
-        alert("Login Successful");
+        alert("Login Successfully");
         window.location.href = "{}";
         </script>
         """.format(url_for("outlet_management"))
@@ -42,9 +42,16 @@ def login_user():
         </script>
         """
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+
 @app.route("/outlet_management", methods=['GET', 'POST'])
 def outlet_management():
     cur = mysql.connection.cursor()
+    
+    # Check if it's a POST request to handle the search, otherwise display all records
     if request.method == 'POST':
         search_term = request.form['searchInput']
         query = f"SELECT Outlet_ID, Outlet_name, Location_name, Contact_No, timings, Ratings FROM Outlet WHERE Outlet_name LIKE '%{search_term}%'"
@@ -54,6 +61,7 @@ def outlet_management():
     outlets = cur.fetchall()  # Fetch all rows
     cur.close()
     return render_template("outlet_management.html", outlets=outlets)
+
 
 @app.route("/stakeholder_details", methods=['GET', 'POST'])
 def  stakeholder_details():
@@ -68,20 +76,77 @@ def  stakeholder_details():
     cur.close()
     return render_template("stakeholder_details.html", data=data)
 
+
+@app.route("/inventory_details", methods=['GET', 'POST'])
+def inventory_details():
+    cur = mysql.connection.cursor()
+    if request.method == 'POST':
+        search_term = request.form['searchInput'].lower()  # Convert search term to lowercase
+        query = """
+        SELECT o.Outlet_name, i.Item_name, i.Price
+        FROM Inventory i
+        JOIN Outlet o ON i.Outlet_ID = o.Outlet_ID
+        WHERE LOWER(i.Item_name) = %s  # Convert column data to lowercase for comparison
+        """
+        cur.execute(query, [search_term])
+    else:
+        query = """
+        SELECT o.Outlet_name, i.Item_name, i.Price
+        FROM Inventory i
+        JOIN Outlet o ON i.Outlet_ID = o.Outlet_ID
+        """
+        cur.execute(query)
+
+    items = cur.fetchall()
+    cur.close()
+    return render_template("Inventory.html", items=items)
+
+
+
+@app.route("/employee_details", methods=['GET', 'POST'])
+def employee_details():
+    cur = mysql.connection.cursor()
+
+    # Check if it's a POST request to handle the search, otherwise display all records
+    if request.method == 'POST':
+        search_term = request.form['searchInput']
+        column_name = request.form['searchColumn']
+
+        # Adjust the query to search for the specified column
+        query = f"""
+        SELECT o.Outlet_name, e.Employee_name, e.Role, e.Mobile_number, e.Shift_time
+        FROM Employees e
+        JOIN Outlet o ON e.Outlet_ID = o.Outlet_ID
+        WHERE {column_name} LIKE %s
+        """
+        cur.execute(query, ['%' + search_term + '%'])
+    else:
+        query = """
+        SELECT o.Outlet_name, e.Employee_name, e.Role, e.Mobile_number, e.Shift_time
+        FROM Employees e
+        JOIN Outlet o ON e.Outlet_ID = o.Outlet_ID
+        """
+        cur.execute(query)
+
+    employees = cur.fetchall()
+    cur.close()
+    return render_template("employees_details.html", employees=employees)
+
+
 @app.route("/Customer_feedback", methods=['GET', 'POST'])
 def Customer_feedback():
     cur = mysql.connection.cursor()
     
     # Check if it's a POST request to handle the search, otherwise display all records
     if request.method == 'POST':
-        search_term = request.form['searchInput']
+        search_term = request.form['searchInput'].lower()  # Convert search term to lowercase
         query = """
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
         FROM Customer_feedback cf
         JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
-        WHERE o.Outlet_name LIKE %s
+        WHERE LOWER(o.Outlet_name) = %s
         """
-        cur.execute(query, ['%' + search_term + '%'])
+        cur.execute(query, [search_term])
     else:
         query = """
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
@@ -93,6 +158,7 @@ def Customer_feedback():
     feedback_data = cur.fetchall()  # Fetch all rows of joined tables
     cur.close()
     return render_template("Customer_feedback.html", feedback_data=feedback_data)
+
 
 @app.route("/Rent_details", methods=['GET', 'POST'])
 def Rent_details():
@@ -123,6 +189,7 @@ def Rent_details():
     rent_payments = cur.fetchall()
     cur.close()
     return render_template("Rent_payment.html", rent_payments=rent_payments)
+
 
 @app.route("/Survey_details", methods=['GET', 'POST'])
 def Survey_details():

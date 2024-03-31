@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlet Management</title>
-    <link rel="stylesheet" type="text/css" href="/static/outlet_management.css">
+    <title>Employee Management</title>
+    <link rel="stylesheet" type="text/css" href="/static/employees_details.css">
 </head>
 <body>
     <header>
-    <div class="header-left">
-        <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
-        <h1 class="title">Outlet Management</h1>
-    </div>
-    
-    <div class="header-right">
-        <a href="/" class="logout-link">
-            <img src="/static/logo.png" alt="Logout" class="logout-icon">
-            <span class="logout-text">Logout</span>
-        </a>
-    </div>
-     
-</header>
+        <div class="header-left">
+            <span class="menu-icon" onclick="toggleSidebar()">&#9776;</span>
+            <h1 class="title">Employee Details</h1>
+        </div>
+        
+        <div class="header-right">
+            <a href="/" class="logout-link">
+                <img src="/static/logo.png" alt="Logout" class="logout-icon">
+                <span class="logout-text">Logout</span>
+            </a>
+        </div>
+         
+    </header>
 
     <aside id="sidebar">
         <nav>
@@ -39,41 +39,50 @@
     <main>
         <div class="content-container">
             <div class="search-bar">
-                <form method="POST" action="/outlet_management">
-                    <input type="text" name="searchInput" id="searchInput" placeholder="Search Outlet...">
+                <form method="POST" action="/employee_details">
+                    <input type="text" name="searchInput" placeholder="Search...">
+                    <select name="searchColumn">
+                        <option value="Outlet_name">Outlet Name</option>
+                        <option value="Employee_name">Employee Name</option>
+                        <option value="Role">Role</option>
+                        <option value="Shift_time">Shift Time</option>
+                    </select>
                     <button type="submit">Search</button>
                 </form>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>Outlet Name</th>
-                        <th>Location</th>
-                        <th>Contact</th>
-                        <th>Timing</th>
-                        <th>Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for outlet in outlets %}
-                    <tr>
-                        <td><input type="checkbox" name="selected[]" value="{{ outlet[0] }}"></td>
-                        <td>{{ outlet[1] }}</td>
-                        <td>{{ outlet[2] }}</td>
-                        <td>{{ outlet[3] }}</td>
-                        <td>{{ outlet[4] }}</td>
-                        <td>{{ outlet[5] }}</td>
-                    </tr>
-                    {% endfor %}
-                    
-                </tbody>
-            </table>
-            <div class="button-container">
-                <button id="add-button">Add</button>
-                <button id="edit-button" disabled>Edit</button>
-                <button id="delete-button" disabled>Delete</button>
-                <input id="submit" type="submit" value="Submit">
+            
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Outlet Name</th>
+                            <th>Employee Name</th>
+                            <th>Role</th>
+                            <th>Mobile Number</th>
+                            <th>Shift Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                        <tr>
+                            <td><input type="checkbox" name="selected[]" value="{{ loop.index }}"></td>
+                            <td>{{ employee[0] }}</td> <!-- Outlet Name -->
+                            <td>{{ employee[1] }}</td> <!-- Employee Name -->
+                            <td>{{ employee[2] }}</td> <!-- Role -->
+                            <td>{{ employee[3] }}</td> <!-- Mobile Number -->
+                            <td>{{ employee[4] }}</td> <!-- Shift Time -->
+    
+                        </tr>
+                        {% endfor %}
+    
+                    </tbody>
+                </table>
+                <div class="button-container">
+                    <button id="add-button">Add</button>
+                    <button id="edit-button" disabled>Edit</button>
+                    <button id="delete-button" disabled>Delete</button>
+                    <input id="submit" type="submit" value="Submit">
+                </div>
             </div>
         </div>
     </main>
@@ -90,10 +99,10 @@
                 event.preventDefault();  
             }
         });
-
+        
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
+        document.getElementById('sidebar').classList.toggle('active');
+    }
         
         function updateButtonStates() {
             const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
@@ -132,12 +141,12 @@
             const tableBody = document.querySelector('tbody');
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-                <td><input type="checkbox"></td>
-                <td><input type="text" placeholder="Outlet Name"></td>
-                <td><input type="text" placeholder="Location"></td>
-                <td><input type="text" placeholder="Contact No"></td>
-                <td><input type="text" placeholder="Timing"></td>
-                <td><input type="text" placeholder="Rating"></td>
+            <td><input type="checkbox"></td>
+            <td><input type="text" placeholder="Outlet Name"></td>
+            <td><input type="text" placeholder="Employee Name"></td>
+            <td><input type="text" placeholder="Role"></td>
+            <td><input type="text" placeholder="Mobile Number"></td>
+            <td><input type="text" placeholder="Shift Time"></td>
             `;
             tableBody.appendChild(newRow);
         }
@@ -153,18 +162,18 @@
         }
         
         function submitForm() {
-            const editedRow = document.querySelector('tbody input[type="text"]');
-            if (editedRow) {
+                const editedRow = document.querySelector('tbody input[type="text"]');
+                if (editedRow) {
                 // Update existing row
                 const cells = editedRow.parentNode.parentNode.querySelectorAll('td:not(:first-child)');
                 cells.forEach(cell => {
                     cell.innerHTML = `<td>${cell.querySelector('input').value}</td>`;
                 });
-            } else {
-                // Add new row
+                } else {
+            // Add new row
                 addTableRow();
+                }
             }
-        }
 
         updateButtonStates();
     </script>
