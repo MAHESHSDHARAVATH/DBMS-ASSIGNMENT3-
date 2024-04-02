@@ -28,10 +28,12 @@
             <ul>
                 <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
                 <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
+                {% if user_type == 'stakeholder' %}
                 <li><a href="{{url_for('inventory_details')}}">Inventory Details</a></li>
                 <li><a href="{{url_for('employee_details')}}">Employee Details</a></li>
                 <li><a href="{{url_for('Customer_feedback')}}">Customer feedback</a></li>
                 <li><a href="{{url_for('Rent_details')}}">Rent details</a></li>
+                {% endif %}
                 <li><a href="{{url_for('Survey_details')}}">Survey Details</a></li>
             </ul>
         </nav>
@@ -53,7 +55,9 @@
                         <th>Contact</th>
                         <th>Timing</th>
                         <th>Rating</th>
+                        {% if user_type=='stakeholder'%}
                         <th>Action</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -65,11 +69,13 @@
                         <td>{{ outlet[3] }}</td>
                         <td>{{ outlet[4] }}</td>
                         <td>{{ outlet[5] }}</td>
+                        {% if user_type == 'stakeholder'%}
                         <td>
                             <a href="/update/{{outlet[0]}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{outlet[0]}}">Edit</a>
                             <a href="/delete/{{outlet[0]}}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</a>
 
                         </td>
+                        {% endif %}
                     </tr>
                     
                     <!--Enter new outlet-->
@@ -166,10 +172,12 @@
                     
                 </tbody>
             </table>
+            {% if user_type=='stakeholder'%}
             <div class="button-container">
                 <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">Add</button>
                 <!-- <input id="submit" type="submit" value="Submit"> -->
             </div>
+            {%endif%}
         </div>
     </main>
 

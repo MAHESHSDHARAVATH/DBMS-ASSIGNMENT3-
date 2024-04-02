@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -15,7 +15,8 @@ app.secret_key = "supersecretkey"
 
 # Sample User Data
 user_data = {
-    "shubham.kshirsagar@iitgn.ac.in": "password"
+    "shubham.kshirsagar@iitgn.ac.in": ["password","stakeholder"],
+    "kajal.singh@iitgn.ac.in":["password","student"]
 }
 
 @app.route("/")
@@ -26,8 +27,10 @@ def login():
 def login_user():
     email = request.form.get("username")
     password = request.form.get("pswrd")
+    user_type = request.form.get("userType")
 
-    if email in user_data and user_data[email] == password:
+    if email in user_data and user_data[email][0] == password and user_data[email][1] == user_type:
+        session['user_type']=user_type
         return """
         <script>
         alert("Login Successfully");
@@ -50,7 +53,7 @@ def signup():
 @app.route("/outlet_management", methods=['GET', 'POST'])
 def outlet_management():
     cur = mysql.connection.cursor()
-    
+    user_type = session.get('user_type','guest')
     # Check if it's a POST request to handle the search, otherwise display all records
     if request.method == 'POST':
         search_term = request.form['searchInput']
@@ -60,7 +63,7 @@ def outlet_management():
     cur.execute(query)
     outlets = cur.fetchall()
     cur.close()
-    return render_template("outlet_management.html", outlets=outlets)
+    return render_template("outlet_management.html", user_type=user_type,outlets=outlets)
 
 #INSERT FEATURE
 @app.route('/insert_outlet', methods = ['POST'])
