@@ -154,6 +154,7 @@ def update():
 @app.route("/stakeholder_details", methods=['GET', 'POST'])
 def  stakeholder_details():
     cur = mysql.connection.cursor()
+    user_type = session.get('user_type','guest')
     if request.method == 'POST':
         search_term = request.form['searchInput']
         query  = f"SELECT * from stakeholder WHERE name LIKE '%{search_term}%'"
@@ -162,7 +163,7 @@ def  stakeholder_details():
     cur.execute(query)  # Adjust 'stakeholders' to your table name
     data = cur.fetchall()
     cur.close()
-    return render_template("stakeholder_details.html", data=data)
+    return render_template("stakeholder_details.html",user_type=user_type, data=data)
 
 
 @app.route("/inventory_details", methods=['GET', 'POST'])
