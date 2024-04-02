@@ -2,8 +2,8 @@
 
 /* Header styles */
 header {
-    background-color: rgb(247, 197, 206);
-    color: rgb(176, 16, 208);
+    background-color: #030804;
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,7 +37,7 @@ header {
 .logout-text {
     margin-left: 5px;
     font-weight: bold;
-    color: rgb(17, 10, 78);
+    color: white;
 }
 
 h1 {
