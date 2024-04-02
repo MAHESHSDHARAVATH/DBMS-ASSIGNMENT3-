@@ -283,6 +283,7 @@ def Rent_details():
 @app.route("/Survey_details", methods=['GET', 'POST'])
 def Survey_details():
     cur = mysql.connection.cursor()
+    user_type= session.get('user_type','guest')
     
     if request.method == 'POST':
         outlet_name = request.form.get('outletName', '')  #To avoid Key error exception hence used get too.
@@ -319,7 +320,7 @@ def Survey_details():
 
     surveys = cur.fetchall()
     cur.close()
-    return  render_template("survey.html",surveys=surveys)
+    return  render_template("survey.html",user_type=user_type,surveys=surveys)
 
 if __name__ == "__main__":
     app.run(debug=True)
