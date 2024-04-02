@@ -28,10 +28,12 @@
             <ul>
                 <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
                 <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
+                {% if user_type=='stakeholder' %}
                 <li><a href="{{url_for('inventory_details')}}">Inventory Details</a></li>
                 <li><a href="{{url_for('employee_details')}}">Employee Details</a></li>
                 <li><a href="{{url_for('Customer_feedback')}}">Customer feedback</a></li>
                 <li><a href="{{url_for('Rent_details')}}">Rent details</a></li>
+                {% endif %}
                 <li><a href="{{url_for('Survey_details')}}">Survey Details</a></li>
             </ul>
         </nav>
@@ -54,7 +56,9 @@
                         <th>Position</th>
                         <th>Entry Date</th>
                         <th>Exit Date</th>
+                        {% if user_type=='stakeholder' %}
                         <th>Action</th>
+                        {%endif%}
                         
                     </tr>
                 </thead>
@@ -67,19 +71,21 @@
                         <td>{{ row[3] }}</td> <!-- Position -->
                         <td>{{ row[4] }}</td> <!-- Entry Date -->
                         <td>{{ row[5] }}</td> <!-- Exit Date -->
-                        
+                        {% if user_type=='stakeholder' %}
                         <td>
                             <a href="" class="btn btn-warning btn-sm" data-toggle="modal" data-target="">Edit</a>
                             <a href="" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</a>
                         </td>
-                        
+                        {%endif%}
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            {% if user_type=='stakeholder' %}
             <div class="button-container">
                 <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">Add</button>
             </div>
+            {%endif%}
         </div>
     </main>
     
