@@ -6,7 +6,7 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
@@ -229,9 +229,9 @@ def Customer_feedback():
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
         FROM Customer_feedback cf
         JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
-        WHERE LOWER(o.Outlet_name) = %s
+        WHERE LOWER(o.Outlet_name) LIKE %s
         """
-        cur.execute(query, [search_term])
+        cur.execute(query, ['%' + search_term + '%'])
     else:
         query = """
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
