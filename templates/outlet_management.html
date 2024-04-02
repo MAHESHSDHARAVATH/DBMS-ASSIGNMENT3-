@@ -48,76 +48,113 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Select</th>
                         <th>Outlet Name</th>
                         <th>Location</th>
                         <th>Contact</th>
                         <th>Timing</th>
                         <th>Rating</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for outlet in outlets %}
                     <tr>
-                        <td><input type="checkbox" name="selected[]" value="{{ outlet[0] }}"></td>
+                        <!-- <td><input type="checkbox" name="selected[]" value="{{ outlet[0] }}"></td> -->
                         <td>{{ outlet[1] }}</td>
                         <td>{{ outlet[2] }}</td>
                         <td>{{ outlet[3] }}</td>
                         <td>{{ outlet[4] }}</td>
                         <td>{{ outlet[5] }}</td>
                         <td>
-                            <a href="" class="btn btn-warning btn-sm" data-toggle="modal" data-target="">Edit</a>
-                            <a href="" onclick="return confirm('Are Sure Want To Deleted ?')" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="/update/{{outlet[0]}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{outlet[0]}}">Edit</a>
+                            <a href="/delete/{{outlet[0]}}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</a>
 
                         </td>
                     </tr>
+                    
                     <!--Enter new outlet-->
                     <div id="myModal" class="modal fade" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
 
+                                <div class="modal-header">
                                     <h5 class="modal-title text-primary" style="align-content: center;">Please Add New Outlet</h5>    
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
 
-
                                 <div class="modal-body">
-                                    <form action="/insert_outlet" method="POST">
+                                    <form action="/insert_outlet" method="POST" id="addOutletForm">
                                         <div class="form-group">
-                                          <label>Outlet Name</label>
-                                          <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="Enter Outlet Name">
+                                            <label>Outlet Name</label>
+                                            <input type="text" name="name" class="form-control" id="outletName" placeholder="Enter Outlet Name" required>
                                         </div>
-                
                                         <div class="form-group">
                                             <label>Location</label>
-                                            <input type="text" name="Location" class="form-control" id="exampleFormControlInput1" placeholder="Location">
+                                            <input type="text" name="Location" class="form-control" id="location" placeholder="Location" required>
                                         </div>
-                
                                         <div class="form-group">
                                             <label>Contact</label>
-                                            <input name="Contact" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Contact Details">
+                                            <input name="Contact" type="text" class="form-control" id="contact" placeholder="Contact Details" required>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Timings</label>
-                                            <input name="Timings" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Timings">
+                                            <input name="Timings" type="text" class="form-control" id="timings" placeholder="Timings" required>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Rating</label>
-                                            <input name="Rating" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Rating">
+                                            <input name="Rating" type="text" class="form-control" id="rating" min="0" max="5" placeholder="Rating" required>
                                         </div>
-                
-                                          <button type="submit" class="btn btn-primary mb-2">Save</button>
-                                     
-                                      </form>
-
-
+                                        <button type="submit" class="btn btn-primary mb-2">Save</button>
+                                    </form>
                                 </div>
 
+                            </div>
+                        </div>    
+
+                    </div>
+
+
+                    <!--Edit outlet-->
+                    <div id="modaledit{{outlet[0]}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-primary" style="align-content: center;">Update Outlet Details</h5>    
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="/update_outlet" method="POST" id="updateOutletForm">
+                                    <!-- <form action="/update_outlet" method="POST" id = "addOutletForm">    -->
+                                        <input type='hidden' name='id' value="{{outlet[0]}}">
+                                        <div class="form-group">
+                                            <label>Outlet Name</label>
+                                            <input value="{{outlet[1]}}" type="text" name="name" class="form-control" id="outletName" placeholder="Outlet Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Location</label>
+                                            <input value="{{outlet[2]}}" type="text" name="Location" class="form-control" id="location" placeholder="Location" required>
+                                        </div>
+                                        <div class="form-group">    
+                                            <label>Contact</label>
+                                            <input value="{{outlet[3]}}" name="Contact" type="text" class="form-control contact-input" id="contact" placeholder="Contact Details" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Timings</label>
+                                            <input value="{{outlet[4]}}" name="Timings" type="text" class="form-control" id="timings" placeholder="Timings" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Rating</label>
+                                            <input value="{{outlet[5]}}" name="Rating" type="text" class="form-control rating-input" min="0" max="5" placeholder="Rating" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-success mb-2">Update</button>
+                                    </form>
+                                </div>
 
                             </div>
                         </div>    
@@ -131,7 +168,7 @@
             </table>
             <div class="button-container">
                 <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">Add</button>
-                <input id="submit" type="submit" value="Submit">
+                <!-- <input id="submit" type="submit" value="Submit"> -->
             </div>
         </div>
     </main>
@@ -139,10 +176,12 @@
     <footer>
         &copy; 2024 IIT Gandhinagar. All rights reserverd.
     </footer>
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
     <script>
         // Logout confirmation
         document.querySelector('.logout-link').addEventListener('click', function (event) {
@@ -150,6 +189,45 @@
             if (!confirmLogout) {
                 event.preventDefault();  
             }
+        });
+
+        // Client-side validation for contact number
+        document.getElementById("contact").addEventListener("input", function() {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10); // Remove non-numeric characters and limit to 10 digits
+        });
+
+        // Client-side validation for contact number
+        document.querySelectorAll(".contact-input").forEach(function(input) {
+            input.addEventListener("input", function() {
+                this.value = this.value.replace(/\D/g, '').slice(0, 10); // Remove non-numeric characters and limit to 10 digits
+            });
+        });
+
+        // Client-side validation for rating
+        document.getElementById("rating").addEventListener("input", function() {
+           if (parseFloat(this.value) < 0 || parseFloat(this.value) > 5 || isNaN(parseFloat(this.value))) {
+              alert("Please enter a valid rating between 0 and 5.");
+              this.value = ""; // Clear the input field if an invalid value is entered
+           }
+        });
+
+        // Client-side validation for rating
+        document.querySelectorAll("rating-input").forEach(function(input) {
+            input.addEventListener("input", function() {
+                if (parseFloat(this.value) < 0 || parseFloat(this.value) > 5 || isNaN(parseFloat(this.value))) {
+                    alert("Please enter a valid rating between 0 and 5.");
+                    this.value = ""; // Clear the input field if an invalid value is entered
+                }
+            });
+        });
+
+        // Client-side form submission validation
+        document.getElementById("addOutletForm").addEventListener("submit", function(event) {
+           const contact = document.getElementById("contact").value;
+           if (contact.length !== 10 || isNaN(contact)) {
+               alert("Please enter a valid 10-digit contact number.");
+               event.preventDefault();
+           }
         });
 
         function toggleSidebar() {

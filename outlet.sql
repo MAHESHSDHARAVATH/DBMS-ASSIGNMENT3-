@@ -41,7 +41,7 @@ CREATE TABLE Outlet (
     Contact_No BIGINT CHECK (Contact_No >= 1000000000 AND Contact_No < 10000000000),
     timings VARCHAR(50),
     Ratings FLOAT,
-    FOREIGN KEY (stakeholder_id) REFERENCES stakeholder(stakeholder_id)
+    FOREIGN KEY (stakeholder_id) REFERENCES stakeholder(stakeholder_id) ON DELETE CASCADE
 );
 
 -- Sample Data with Outlet_ID included
@@ -63,10 +63,14 @@ INSERT INTO Outlet (Outlet_ID, Stakeholder_ID, Outlet_name, Location_name, Conta
 (15, 5, 'JK Grocery', 'Location 15', 5678901234, '8:00 AM - 4:00 PM', 4.7);
 select * from Outlet;
 
-ALTER TABLE Outlet ADD COLUMN Country_Code JSON;
-SET SQL_SAFE_UPDATES = 0;
+-- ALTER TABLE Outlet ADD COLUMN Country_Code JSON;
+-- SET SQL_SAFE_UPDATES = 0;
 
-UPDATE Outlet SET Country_Code = JSON_EXTRACT(JSON_OBJECT('Country Code', '+91'), '$."Country Code"');
+-- UPDATE Outlet SET Country_Code = JSON_EXTRACT(JSON_OBJECT('Country Code', '+91'), '$."Country Code"');
+
+
+-- DELETE FROM Outlet WHERE Outlet_ID = 10;
+
 
 -- Create the Rent payment table
 CREATE TABLE Rent_payment (
@@ -78,7 +82,7 @@ CREATE TABLE Rent_payment (
     Rent_from_date DATE,
     Rent_to_date DATE,
     Due_amount DECIMAL(10, 2),
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID) ON DELETE CASCADE
 );
 
 -- Sample Data with Payment_ID included
@@ -111,7 +115,7 @@ CREATE TABLE Survey (
     Warning_issued VARCHAR(20),
     Penalty_amount DECIMAL(10, 2),
     FOREIGN KEY (Stakeholder_ID) REFERENCES Stakeholder(stakeholder_id),
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)  ON DELETE CASCADE
 );
 
 -- Sample Data with primary keys included
@@ -140,7 +144,7 @@ CREATE TABLE Customer_feedback (
     Outlet_ID INT,
     Customer_email VARCHAR(30),
     Customer_rating FLOAT,
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID) ON DELETE CASCADE
 );
 
 -- Sample Data with primary keys included
@@ -169,7 +173,7 @@ CREATE TABLE Inventory (
     Outlet_ID INT,
     Item_name VARCHAR(100) NOT NULL,
     Price DECIMAL(10, 2),
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID) ON DELETE CASCADE
 );
 
 -- Sample Data with primary keys included
@@ -201,7 +205,7 @@ CREATE TABLE Employees (
     Role VARCHAR(20),
     Mobile_number BIGINT CHECK (Mobile_number >= 1000000000 AND Mobile_number < 10000000000),
     Shift_time VARCHAR(30),
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID) ON DELETE CASCADE
 );
 
 -- Sample Data with primary keys included
@@ -228,7 +232,7 @@ CREATE TABLE Contract (
     Start_date DATE,
     End_date DATE,
     Contract_status VARCHAR(50),
-    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID)
+    FOREIGN KEY (Outlet_ID) REFERENCES Outlet(Outlet_ID) ON DELETE CASCADE
 );
 
 -- Sample Data with primary keys included
