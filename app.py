@@ -229,9 +229,9 @@ def Customer_feedback():
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
         FROM Customer_feedback cf
         JOIN Outlet o ON cf.Outlet_ID = o.Outlet_ID
-        WHERE LOWER(o.Outlet_name) = %s
+        WHERE LOWER(o.Outlet_name) LIKE %s
         """
-        cur.execute(query, [search_term])
+        cur.execute(query, ['%' + search_term + '%'])
     else:
         query = """
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
