@@ -15,7 +15,7 @@ python app.py
 **4)Login Credentials:**\
 Stakeholder:\
 Email:shubham.kshirsagar@iitgn.ac.in\
-Password:password\
+Password:password
 
 Student:\
 Email:kajal.singh@iitgn.ac.in\
