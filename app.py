@@ -6,7 +6,7 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
@@ -65,6 +65,23 @@ def outlet_management():
     cur.close()
     return render_template("outlet_management.html", user_type=user_type,outlets=outlets)
 
+
+# RENAME FEATURE
+@app.route("/rename_column", methods=["POST"])
+def rename_column():
+    new_column_name = request.json.get("newColumnName")
+    if new_column_name:
+        cur = mysql.connection.cursor()
+        # First, rename the column
+        cur.execute("ALTER TABLE outlet CHANGE COLUMN Outlet_name {} VARCHAR(50)".format(new_column_name))
+
+        mysql.connection.commit()
+        cur.close()
+        return "Column renamed successfully"
+    else:
+        return "Invalid column name"
+    
+    
 #INSERT FEATURE
 @app.route('/insert_outlet', methods = ['POST'])
 def insert_outlet():
@@ -142,7 +159,7 @@ def update():
         cur = mysql.connection.cursor()
         cur.execute("""
             UPDATE Outlet SET Outlet_name=%s, Location_name=%s, Contact_No=%s, timings=%s, Ratings=%s
-            WHERE Outlet_ID=%s
+            WHERE Outlet_ID LIKE %s
             """, (name, Location, Contact, Timings, Rating, id_data))
 
         flash("Data Updated Successfully")
@@ -175,7 +192,7 @@ def inventory_details():
         SELECT o.Outlet_name, i.Item_name, i.Price
         FROM Inventory i
         JOIN Outlet o ON i.Outlet_ID = o.Outlet_ID
-        WHERE LOWER(i.Item_name) = %s  # Convert column data to lowercase for comparison
+        WHERE LOWER(i.Item_name) LIKE %s
         """
         cur.execute(query, [search_term])
     else:
