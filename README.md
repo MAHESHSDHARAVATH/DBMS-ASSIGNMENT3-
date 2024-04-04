@@ -14,10 +14,10 @@ python app.py
 
 **4)Login Credentials:**\
 Stakeholder:\
-Email:shubham.kshirsagar@iitgn.ac.in\
-Password:password\
+Email:shubham.kshirsagar@iitgn.ac.in
+Password:password
 
 Student:\
-Email:kajal.singh@iitgn.ac.in\
+Email:kajal.singh@iitgn.ac.in
 Password:password
 
