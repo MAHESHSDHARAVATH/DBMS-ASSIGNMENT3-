@@ -1,11 +1,11 @@
-**Installation requirements:**
- pip install virtualenv\
+**1) Installation requirements:**\
+pip install virtualenv\
 pip install Flask\
 pip install flask-mysqldb\
-pip install mysqlclient\\
+pip install mysqlclient\
 
-**Steps to Run the app**
+**2) Steps to Run the app**\
 python -m venv venv\
-/venv/Scripts/Activate
+/venv/Scripts/Activate\
 python app.py
 
