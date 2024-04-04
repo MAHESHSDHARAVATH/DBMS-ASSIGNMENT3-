@@ -168,6 +168,25 @@
                     </div>
 
 
+                    <!-- Rename column modal -->
+                    <div id="renameModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Rename Column</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="newColumnName">Please provide a new name for the outlet:</label>
+                                    <input type="text" id="newColumnName" name="newColumnName" class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="renameColumn()">Rename</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     {% endfor %}
                     
                 </tbody>
@@ -175,6 +194,7 @@
             {% if user_type=='stakeholder'%}
             <div class="button-container">
                 <button class="btn btn-primary float-right" data-toggle="modal" data-target="#myModal">Add</button>
+                <button class="btn btn-primary btn-sm" onclick="openRenameModal()">Rename</button>
                 <!-- <input id="submit" type="submit" value="Submit"> -->
             </div>
             {%endif%}
@@ -185,10 +205,12 @@
         &copy; 2024 IIT Gandhinagar. All rights reserverd.
     </footer>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>    
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
     
     <script>
         // Logout confirmation
@@ -237,6 +259,31 @@
                event.preventDefault();
            }
         });
+
+        function openRenameModal() {
+           $('#renameModal').modal('show');
+        }
+
+    function renameColumn() {
+    var newColumnName = $('#newColumnName').val().trim();
+    if (newColumnName !== "") {
+        $.ajax({
+            type: "POST",
+            url: "/rename_column",
+            contentType: "application/json",
+            data: JSON.stringify({newColumnName: newColumnName}),
+            success: function (response) {
+                alert(response);
+                location.reload();
+            },
+            error: function (error) {
+                alert("Error: " + error.responseJSON.message);
+            }
+        });
+    } else {
+        alert("Please enter a valid column name.");
+    }
+    }
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
