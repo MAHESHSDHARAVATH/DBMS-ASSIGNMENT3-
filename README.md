@@ -2,10 +2,10 @@
 pip install virtualenv\
 pip install Flask\
 pip install flask-mysqldb\
-pip install mysqlclient\
+pip install mysqlclient
 
 **2) Login Credentials:**\
-In App.py Change your MYSQL Configurations\
+In App.py Change your MYSQL Configurations
 
 **3) Steps to Run the app**\
 python -m venv venv\
