@@ -15,10 +15,19 @@ mysql = MySQL(app)
 app.secret_key = "supersecretkey"
 
 # Sample User Data
-user_data = {
-    "shubham.kshirsagar@iitgn.ac.in": ["password","stakeholder"],
-    "kajal.singh@iitgn.ac.in":["password","student"]
-}
+def get_stakeholder_id(email):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT stakeholder_id FROM stakeholder WHERE email = %s", (email,))
+    result = cur.fetchone()
+    cur.close()
+    if result:
+        return result[0]
+    else:
+        return None
+# user_data = {
+#     "shubham.kshirsagar@iitgn.ac.in": ["password","stakeholder"],
+#     "kajal.singh@iitgn.ac.in":["password","student"]
+# }
 
 @app.route("/")
 def login():
@@ -29,22 +38,34 @@ def login_user():
     email = request.form.get("username")
     password = request.form.get("pswrd")
     user_type = request.form.get("userType")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM stakeholder WHERE email = %s", (email,))
+    user = cur.fetchone()
+    cur.close()
 
-    if email in user_data and user_data[email][0] == password and user_data[email][1] == user_type:
-        session['user_type']=user_type
-        return """
-        <script>
-        alert("Login Successfully");
-        window.location.href = "{}";
-        </script>
-        """.format(url_for("outlet_management"))
+    if user and password == 'password':
+        session['logged_in'] = True
+        session['email'] = email
+        session['stakeholder_id'] = user[0]
+        return redirect(url_for("outlet_management"))
     else:
-        return """
-        <script>
-        alert("Login Failed");
-        window.location.href = "/";
-        </script>
-        """
+        return render_template("login.html", error="Invalid email or password")
+
+    # if email in user_data and user_data[email][0] == password and user_data[email][1] == user_type:
+    #     session['user_type']=user_type
+    #     return """
+    #     <script>
+    #     alert("Login Successfully");
+    #     window.location.href = "{}";
+    #     </script>
+    #     """.format(url_for("outlet_management"))
+    # else:
+    #     return """
+    #     <script>
+    #     alert("Login Failed");
+    #     window.location.href = "/";
+    #     </script>
+    #     """
 
 @app.route("/signup")
 def signup():
@@ -93,8 +114,9 @@ def insert_outlet():
         Timings = request.form['Timings']
         Contact = request.form['Contact']
         Rating  = float(request.form['Rating'])
-        import random
-        stakeholder_id = random.randint(1, 15)
+        # import random
+        # stakeholder_id = random.randint(1, 15)
+        stakeholder_id = session.get("stakeholder_id")
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO Outlet (Stakeholder_ID, Outlet_name, Location_name, Contact_No, timings, Ratings) VALUES (%s, %s, %s, %s, %s, %s)", (stakeholder_id, name, Location, Contact, Timings, Rating))
         mysql.connection.commit()
@@ -154,9 +176,9 @@ def update():
         Timings = request.form['Timings']
         Contact = request.form['Contact']
         Rating  = float(request.form['Rating'])
-        import random
-        stakeholder_id = random.randint(1, 15)
-
+        # import random
+        # stakeholder_id = random.randint(1, 15)
+        stakeholder_id = session.get("stakeholder_id")
         cur = mysql.connection.cursor()
         cur.execute("""
             UPDATE Outlet SET Outlet_name=%s, Location_name=%s, Contact_No=%s, timings=%s, Ratings=%s
@@ -195,7 +217,7 @@ def insert_stakeholder():
           # Convert string dates to Python datetime objects
         Entrydate = datetime.strptime(Entrydate, '%Y-%m-%d').date()
         Exitdate = datetime.strptime(Exitdate, '%Y-%m-%d').date()
-    
+        stakeholder_id = session.get("stakeholder_id")
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO stakeholder (name, email,position, entry_date, exit_date) VALUES (%s, %s, %s, %s, %s)",(name,Emailid,Position, Entrydate,Exitdate))
         mysql.connection.commit()
