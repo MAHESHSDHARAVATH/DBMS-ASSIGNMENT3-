@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
+from datetime import datetime
 
 app = Flask(__name__)
 
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'mahi3121@'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
@@ -182,6 +183,23 @@ def  stakeholder_details():
     cur.close()
     return render_template("stakeholder_details.html",user_type=user_type, data=data)
 
+#INSERT stakeholder  FEATURE
+@app.route('/insert_stakeholder', methods = ['POST'])
+def insert_stakeholder():
+    if request.method == "POST":
+        name = request.form['name']
+        Emailid = request.form['email']
+        Position = request.form['position']
+        Entrydate = request.form['entry_date']
+        Exitdate = request.form['exit_date']
+          # Convert string dates to Python datetime objects
+        Entrydate = datetime.strptime(Entrydate, '%Y-%m-%d').date()
+        Exitdate = datetime.strptime(Exitdate, '%Y-%m-%d').date()
+    
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO stakeholder (name, email,position, entry_date, exit_date) VALUES (%s, %s, %s, %s, %s)",(name,Emailid,Position, Entrydate,Exitdate))
+        mysql.connection.commit()
+        return redirect(url_for('stakeholder_details'))
 
 @app.route("/inventory_details", methods=['GET', 'POST'])
 def inventory_details():

@@ -73,12 +73,108 @@
                         <td>{{ row[5] }}</td> <!-- Exit Date -->
                         {% if user_type=='stakeholder' %}
                         <td>
-                            <a href="" class="btn btn-warning btn-sm" data-toggle="modal" data-target="">Edit</a>
-                            <a href="" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="/update/{{row[0]}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modaledit{{row[0]}}">Edit</a>
+                            <a href="/delete/{{row[0]}}" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-danger btn-sm">Delete</a>
                         </td>
                         {%endif%}
                     </tr>
+
+                    <!--Enter new Stakeholder Details-->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-primary" style="align-content: center;">Please Add New Stakeholder Details</h5>    
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="/insert_stakeholder" method="POST" id="addStakeholderForm">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" name="name" class="form-control" id="StakeholderName" placeholder="Enter Stakeholder Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email ID</label>
+                                            <input type="text" name="email" class="form-control" id="Email ID" placeholder="Email ID" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Position</label>
+                                            <input name="position" type="text" class="form-control" id="position" placeholder="position" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="entryDate">Entry Date</label>
+                                            <input name="entry_date" type="date" class="form-control" id="entryDate" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="exitDate">Exit Date</label>
+                                            <input name="exit_date" type="date" class="form-control" id="exitDate" required>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary mb-2">Save</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>    
+
+                    </div>
+
+
+                    <!--Edit Stakeholder Details-->
+                    <div id="modaledit{{row[0]}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-primary" style="align-content: center;">Update Stakeholder Details</h5>    
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <!-- <form action="/update_Stakeholder_Details" method="POST" id="updateStakeholderForm"> -->
+                                    <form action="/update_Stakeholder_Details" method="POST">
+                                        <input type='hidden' name='id' value="{{row[0]}}">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input value="{{row[1]}}" type="text" name="Name" class="form-control" id="StakeholderName" placeholder="Stakeholder Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email ID</label>
+                                            <input value="{{row[2]}}" type="text" name="Email ID" class="form-control" id="Email ID" placeholder="Email ID" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Position</label>
+                                            <input value="{{row[3]}}" name="Position" type="text" class="form-control" id="Position" placeholder="Position" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="entryDate">Entry Date</label>
+                                            <input value="{{ row[4] }}" name="entryDate" type="date" class="form-control" id="entryDate" required>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="exitDate">Exit Date</label>
+                                            <input value="{{ row[5] }}" name="exitDate" type="date" class="form-control" id="exitDate" required>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-success mb-2">Update</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>    
+
+                    </div>
+
+
                     {% endfor %}
+
                 </tbody>
             </table>
             {% if user_type=='stakeholder' %}
@@ -92,99 +188,80 @@
     <footer>
         &copy; 2024 IIT Gandhinagar. All rights reserverd.
     </footer>
+
     
-        <script>
-            // Logout confirmation
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Logout confirmation
         document.querySelector('.logout-link').addEventListener('click', function (event) {
             const confirmLogout = confirm('Are you sure you want to logout?');
             if (!confirmLogout) {
                 event.preventDefault();  
             }
         });
-        
-            function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
-    }
-            function updateButtonStates() {
-                const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-                const numSelected = selectedCheckboxes.length;
-    
-                document.getElementById('add-button').disabled = numSelected > 0;
-                document.getElementById('edit-button').disabled = numSelected !== 1;
-                document.getElementById('delete-button').disabled = numSelected <= 0;
-            }
-    
-            document.querySelector('tbody').addEventListener('change', updateButtonStates);
-    
-            document.getElementById('add-button').addEventListener('click', function() {
-                addTableRow();
-                updateButtonStates();
-            });
-    
-            document.getElementById('edit-button').addEventListener('click', function() {
-                const selectedRow = document.querySelector('tbody input[type="checkbox"]:checked').parentNode.parentNode;
-                makeRowEditable(selectedRow);
-            });
-    
-            document.getElementById('delete-button').addEventListener('click', function() {
-                const selectedCheckboxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
-                selectedCheckboxes.forEach(checkbox => {
-                    checkbox.parentNode.parentNode.remove();
-                });
-                updateButtonStates();
-            });
+
+        // // Client-side validation for Email ID
+        // document.getElementById("Email ID").addEventListener("input", function() {
+        //     const emailInput = this.value.trim();
+        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             
-            document.getElementById('submit').addEventListener('click', function() {
-                submitForm();
-            });
-    
-            function addTableRow() {
-                const tableBody = document.querySelector('tbody');
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td><input type="checkbox"></td>
-                    <td><input type="text" placeholder="Name"></td>
-                    <td><input type="text" placeholder="Email ID"></td>
-                    <td><input type="text" placeholder="Position"></td>
-                    <td><input type="text" placeholder="Entry Date"></td>
-                    <td><input type="text" placeholder="Exit Date"></td>
-                `;
-                tableBody.appendChild(newRow);
-            }
-    
-            function makeRowEditable(row) {
-                const cells = row.querySelectorAll('td:not(:first-child)');
-                cells.forEach(cell => {
-                    const text = cell.innerText;
-                    cell.innerHTML = `<input type="text" value="${text}">`;
-                });
-                const checkbox = row.querySelector('input[type="checkbox"]');
-                checkbox.checked = false;
-            }
-            
-            function submitForm() {
-                const editedRow = document.querySelector('tbody input[type="text"]');
-                if (editedRow) {
-                // Update existing row
-                const cells = editedRow.parentNode.parentNode.querySelectorAll('td:not(:first-child)');
-                cells.forEach(cell => {
-                    cell.innerHTML = `<td>${cell.querySelector('input').value}</td>`;
-                });
-                } else {
-                // Add new row
-                addTableRow();
-                }
-            }
-    
-            updateButtonStates();
-        </script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>    
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        //     if (!emailRegex.test(emailInput)) {
+        //         alert("Please enter a valid email address.");
+        //         this.value = ""; // Clear the input field if an invalid email is entered
+        //     }
+        // });
         
-    </body>
-    </html>
+        // Client-side validation for Entry Date 
+        document.getElementById("Entry Date").addEventListener("input", function() {
+            const dateInput = this.value.trim();
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            
+            if (!dateRegex.test(dateInput)) {
+                alert("Please enter a valid date in YYYY-MM-DD format.");
+                this.value = ""; // Clear the input field if an invalid date is entered
+            }
+        });
+
+
+
+         // Client-side validation for Exit Date 
+         document.getElementById("Exit Date").addEventListener("input", function() {
+            const dateInput = this.value.trim();
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            
+            if (!dateRegex.test(dateInput)) {
+                alert("Please enter a valid date in YYYY-MM-DD format.");
+                this.value = ""; // Clear the input field if an invalid date is entered
+            }
+        });
+
+
+
+        // Client-side form submission validation
+            document.getElementById("addStakeholderForm").addEventListener("submit", function(event) {
+            const email = document.getElementById("Email ID").value;
+            if (email.length !== 10 || isNaN(contact)) {
+                alert("Please enter a valid email address.");
+                event.preventDefault();
+            }
+            });
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+        
+       
+    </script>
+</body>
+</html>
+            
+            
     
 
 
