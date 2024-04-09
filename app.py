@@ -7,7 +7,7 @@ app = Flask(__name__)
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'mahi3121@'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
@@ -48,9 +48,19 @@ def login_user():
         session['email'] = email
         session['stakeholder_id'] = user[0]
         session['user_type'] = user_type
-        return redirect(url_for("outlet_management"))
+        return """
+         <script>
+         alert("Login Successfully");
+         window.location.href = "{}";
+         </script>
+         """.format(url_for("outlet_management"))
     else:
-        return render_template("login.html", error="Invalid email or password")
+        return """
+         <script>
+         alert("Login Failed");
+         window.location.href = "/";
+         </script>
+         """
 
     # if email in user_data and user_data[email][0] == password and user_data[email][1] == user_type:
     #     session['user_type']=user_type
