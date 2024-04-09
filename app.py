@@ -47,6 +47,7 @@ def login_user():
         session['logged_in'] = True
         session['email'] = email
         session['stakeholder_id'] = user[0]
+        session['user_type'] = user_type
         return redirect(url_for("outlet_management"))
     else:
         return render_template("login.html", error="Invalid email or password")
