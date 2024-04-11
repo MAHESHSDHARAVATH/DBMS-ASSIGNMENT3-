@@ -330,6 +330,7 @@ def Rent_details():
     # Adjust the query based on whether it's a POST request (search operation) or not
     if request.method == 'POST':
         search_term = request.form['searchInput']
+        search_mode = request.form['searchMode']  # Get the mode of payment search term
         query = """
         SELECT Rent_payment.Outlet_ID, Outlet.Outlet_name, Rent_payment.Mode_of_payment, 
                Rent_payment.Paid_amount, Rent_payment.Rent_from_date, Rent_payment.Rent_to_date, 
@@ -337,8 +338,9 @@ def Rent_details():
         FROM Rent_payment
         INNER JOIN Outlet ON Rent_payment.Outlet_ID = Outlet.Outlet_ID
         WHERE Outlet.Outlet_name LIKE %s
+        AND Rent_payment.Mode_of_payment LIKE %s
         """
-        cur.execute(query, ['%' + search_term + '%'])
+        cur.execute(query, ('%' + search_term + '%', '%' + search_mode + '%'))
     else:
         query = """
         SELECT Rent_payment.Outlet_ID, Outlet.Outlet_name, Rent_payment.Mode_of_payment, 
@@ -352,6 +354,7 @@ def Rent_details():
     rent_payments = cur.fetchall()
     cur.close()
     return render_template("Rent_payment.html", rent_payments=rent_payments)
+
 
 
 @app.route("/Survey_details", methods=['GET', 'POST'])
