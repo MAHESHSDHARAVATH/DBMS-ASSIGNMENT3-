@@ -43,7 +43,11 @@
         <div class="content-container">
             <div class="search-bar">
                 <form method="POST" action="/stakeholder_details">
-                    <input type="text" name="searchInput" id="searchInput" placeholder="Search Stakeholder...">
+                    <input type="text" name="searchInput" id="searchInput" placeholder="Search...">
+                    <select name="searchField" id="searchField">
+                        <option value="name">Name</option>
+                        <option value="position">Position</option>
+                    </select>
                     <button type="submit">Search</button>
                 </form>
             </div>

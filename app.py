@@ -208,7 +208,13 @@ def  stakeholder_details():
     user_type = session.get('user_type','guest')
     if request.method == 'POST':
         search_term = request.form['searchInput']
-        query  = f"SELECT * from stakeholder WHERE name LIKE '%{search_term}%'"
+        search_field = request.form['searchField']
+        if search_field == 'name':
+            query = f"SELECT * FROM stakeholder WHERE name LIKE '%{search_term}%'"
+        elif search_field == 'position':
+            query = f"SELECT * FROM stakeholder WHERE position LIKE '%{search_term}%'"
+        else:
+            query = "SELECT * FROM stakeholder"
     else:
         query = "SELECT * FROM stakeholder"
     cur.execute(query)  # Adjust 'stakeholders' to your table name
