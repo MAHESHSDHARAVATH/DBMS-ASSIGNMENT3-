@@ -1,20 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 from datetime import datetime
+import sys
 
 app = Flask(__name__)
 
 # MySQL configurations
 app.config['MYSQL_HOST'] = 'localhost'  # MySQL host
 app.config['MYSQL_USER'] = 'root'   # MySQL username
-app.config['MYSQL_PASSWORD'] = 'P@ssw0rd!SK123'  # MySQL password
+app.config['MYSQL_PASSWORD'] = 'krish2092003'  # MySQL password
 app.config['MYSQL_DB'] = 'outlet_management'  # MySQL database name
 
 mysql = MySQL(app)
 
 app.secret_key = "supersecretkey"
 
-# Sample User Data
+
 def get_stakeholder_id(email):
     cur = mysql.connection.cursor()
     cur.execute("SELECT stakeholder_id FROM stakeholder WHERE email = %s", (email,))
@@ -24,10 +25,8 @@ def get_stakeholder_id(email):
         return result[0]
     else:
         return None
-# user_data = {
-#     "shubham.kshirsagar@iitgn.ac.in": ["password","stakeholder"],
-#     "kajal.singh@iitgn.ac.in":["password","student"]
-# }
+    
+
 
 @app.route("/")
 def login():
@@ -36,50 +35,104 @@ def login():
 @app.route("/login", methods=["POST"])
 def login_user():
     email = request.form.get("username")
-    password = request.form.get("pswrd")
+    password = request.form.get("password")
     user_type = request.form.get("userType")
     cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM stakeholder WHERE email = %s", (email,))
-    user = cur.fetchone()
-    cur.close()
 
-    if user and password == 'password':
-        session['logged_in'] = True
-        session['email'] = email
-        session['stakeholder_id'] = user[0]
-        session['user_type'] = user_type
-        return """
-         <script>
-         alert("Login Successfully");
-         window.location.href = "{}";
-         </script>
-         """.format(url_for("outlet_management"))
+    if user_type == "stakeholder":
+        # cur.execute("SELECT * FROM stakeholder WHERE email = %s AND password = %s", (email, password))
+        query = f"SELECT * FROM stakeholder WHERE email = '{email}' and password = '{password}'"
+        # print(query)
+        cur.execute(query)
+        stakeholder = cur.fetchone()
+        cur.close()
+            
+        if stakeholder:
+            # Store user information in session
+            session['email'] = email
+            session['user_type'] = 'stakeholder'
+            return """
+            <script>
+            alert("Successfully login to Stakeholder dashboard");
+            window.location.href = "{}";
+            </script>
+            """.format(url_for("outlet_management"))
+        
+        else:
+            return """
+            <script>
+            alert("Login Failed");
+            window.location.href = "/";
+            </script>
+            """
+        
+    elif user_type == "student":
+        cur.execute("SELECT * FROM student_credentials WHERE email = %s AND password = %s", (email, password))
+        student = cur.fetchone()
+        cur.close()
+            
+        if student:
+            # Store user information in session
+            session['email'] = email
+            session['user_type'] = 'student'
+            return """
+            <script>
+            alert("Successfully login to Student dashboard");
+            window.location.href = "{}";
+            </script>
+            """.format(url_for("outlet_management"))
+        else:
+            return """
+            <script>
+            alert("Login Failed");
+            window.location.href = "/";
+            </script>
+            """
     else:
         return """
-         <script>
-         alert("Login Failed");
-         window.location.href = "/";
-         </script>
-         """
+        <script>
+        alert("Invalid User Type");
+        window.location.href = "/";
+        </script>
+        """
 
-    # if email in user_data and user_data[email][0] == password and user_data[email][1] == user_type:
-    #     session['user_type']=user_type
-    #     return """
-    #     <script>
-    #     alert("Login Successfully");
-    #     window.location.href = "{}";
-    #     </script>
-    #     """.format(url_for("outlet_management"))
-    # else:
-    #     return """
-    #     <script>
-    #     alert("Login Failed");
-    #     window.location.href = "/";
-    #     </script>
-    #     """
 
-@app.route("/signup")
+
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if request.method == "POST":
+        name = request.form['fullname']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirmPassword']
+        user_type = request.form['userType']
+
+        # Check if passwords match
+        if password != confirm_password:
+            flash("Passwords do not match. Please try again.")
+            return redirect(url_for("signup"))
+
+        cur = mysql.connection.cursor()
+        # Check if the email already exists
+        cur.execute("SELECT * FROM student_credentials WHERE email = %s", (email,))
+        existing_user = cur.fetchone()
+
+        if existing_user:
+            flash("Email already exists. Please use a different email.")
+            return redirect(url_for("signup"))
+        else:
+            # Insert the new user into the student_credentials table
+            cur.execute("INSERT INTO student_credentials (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
+            mysql.connection.commit()
+            return """
+            <script>
+            alert("Signup successful. You can now login.");
+            window.location.href = "{}";
+            </script>
+            """.format(url_for("login"))
+        
+        cur.close()
+
     return render_template("signup.html")
 
 
@@ -222,6 +275,7 @@ def  stakeholder_details():
     cur.close()
     return render_template("stakeholder_details.html",user_type=user_type, data=data)
 
+
 #INSERT stakeholder  FEATURE
 @app.route('/insert_stakeholder', methods = ['POST'])
 def insert_stakeholder():
@@ -239,12 +293,14 @@ def insert_stakeholder():
         cur.execute("INSERT INTO stakeholder (name, email,position, entry_date, exit_date) VALUES (%s, %s, %s, %s, %s)",(name,Emailid,Position, Entrydate,Exitdate))
         mysql.connection.commit()
         return redirect(url_for('stakeholder_details'))
+    
 
+    
 @app.route("/inventory_details", methods=['GET', 'POST'])
 def inventory_details():
     cur = mysql.connection.cursor()
     if request.method == 'POST':
-        search_term = request.form['searchInput'].lower()  # Convert search term to lowercase
+        search_term = request.form['searchInput']
         query = """
         SELECT o.Outlet_name, i.Item_name, i.Price
         FROM Inventory i
@@ -275,7 +331,6 @@ def employee_details():
         search_term = request.form['searchInput']
         column_name = request.form['searchColumn']
 
-        # Adjust the query to search for the specified column
         query = f"""
         SELECT o.Outlet_name, e.Employee_name, e.Role, e.Mobile_number, e.Shift_time
         FROM Employees e
@@ -302,7 +357,7 @@ def Customer_feedback():
     
     # Check if it's a POST request to handle the search, otherwise display all records
     if request.method == 'POST':
-        search_term = request.form['searchInput'].lower()  # Convert search term to lowercase
+        search_term = request.form['searchInput']
         query = """
         SELECT o.Outlet_name, cf.Customer_email, cf.Customer_rating
         FROM Customer_feedback cf
@@ -318,7 +373,7 @@ def Customer_feedback():
         """
         cur.execute(query)
 
-    feedback_data = cur.fetchall()  # Fetch all rows of joined tables
+    feedback_data = cur.fetchall()
     cur.close()
     return render_template("Customer_feedback.html", feedback_data=feedback_data)
 
@@ -354,7 +409,6 @@ def Rent_details():
     rent_payments = cur.fetchall()
     cur.close()
     return render_template("Rent_payment.html", rent_payments=rent_payments)
-
 
 
 @app.route("/Survey_details", methods=['GET', 'POST'])

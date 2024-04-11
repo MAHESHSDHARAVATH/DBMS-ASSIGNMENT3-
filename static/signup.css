@@ -98,7 +98,7 @@ button:hover {
 .userTypeContainer {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   /* margin-bottom: 1px; */
 }
 
@@ -122,4 +122,18 @@ select {
   form {
       width: 20rem;
   }
+}
+
+/* Eye icon for password visibility */
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  color: #121617;
+  cursor: pointer;
+}
+
+.eye-icon:hover {
+  color: #2f14dd;
 }

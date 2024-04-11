@@ -26,7 +26,7 @@
     <aside id="sidebar">
         <nav>
             <ul>
-                <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
+                <li><a href="{{ url_for('outlet_management') }}">Outlet Management</a></li>
                 <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
                 {% if user_type == 'stakeholder' %}
                 <li><a href="{{url_for('inventory_details')}}">Inventory Details</a></li>

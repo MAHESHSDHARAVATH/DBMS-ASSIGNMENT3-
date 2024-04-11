@@ -30,6 +30,13 @@ INSERT INTO stakeholder (stakeholder_id, name, email, position, entry_date, exit
 (14,'Pooja Gupta', 'gupta.pooja@iitgn.ac.in', 'Survey_head', '2023-06-15', NULL),
 (15,'Rajesh Kumar', 'kumar.rajesh@iitgn.ac.in', 'Rent_incharge', '2023-08-25', NULL);
 
+
+-- Add a new column for the password
+ALTER TABLE stakeholder ADD COLUMN password VARCHAR(20);
+
+-- Update existing records with the first name as the password
+UPDATE stakeholder SET password = SUBSTRING_INDEX(name, ' ', 1);
+
 select * from stakeholder;
 
 -- Create the Outlet table
@@ -285,3 +292,19 @@ INSERT INTO storing_img(caption, imge) VALUES ('JUST CHILL', LOAD_FILE("C:/Progr
 INSERT INTO storing_img(caption, imge) VALUES ('JK GROCERY', LOAD_FILE("C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/JK.jpeg"));
 
 select  * from storing_img ;
+
+
+CREATE TABLE student_credentials (
+  name VARCHAR(50) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  Password VARCHAR(50) UNIQUE,
+  CONSTRAINT PK_User PRIMARY KEY (email)
+);
+
+
+
+INSERT INTO student_credentials (name, email, Password) VALUES
+('Krish Raj', 'rajkrish@iitgn.ac.in', 'Krish'),
+('Jethalal', 'jethalal@iitgn.ac.in', 'babita');
+
+select * from student_credentials;

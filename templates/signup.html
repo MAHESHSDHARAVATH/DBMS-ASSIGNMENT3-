@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up page</title>
     <link rel="stylesheet" type="text/css" href="/static/signup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
 </head>
+
 <body>
-    <form>
+    <form onsubmit="return validateForm()" method="post">
         <h1>Outlet Management @ IITGN</h1>
         <!-- Headings for the form -->
         <div class="headingsContainer">
@@ -33,10 +36,12 @@
 
             <!-- Password -->
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter Password" name="password" required>
-
-            <br><br>
-
+            <div style="position: relative;">
+                <input type="password" id="password" placeholder="Enter Password" name="password" required>
+                <i class="eye-icon fas fa-eye" onclick="togglePasswordVisibility('password', 'eye-icon')"></i>
+            </div>
+            
+            <br>
             <!-- Confirm Password -->
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword" required>
@@ -45,7 +50,6 @@
             <div class="userTypeContainer">
                 <label for="userType">Select User:</label>
                 <select id="userType" name="userType">
-                    <!-- <option value="stakeholder">Stakeholder</option> -->
                     <option value="student">Student</option>
                 </select>
             </div>
@@ -58,5 +62,35 @@
         </div>
 
     </form>
+
+
+    <script>
+        function validateForm() {
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password != confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return false;
+            }
+            return true;
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            var passwordInput = document.getElementById(inputId);
+            var icon = document.getElementById(iconId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+
 </body>
 </html>
