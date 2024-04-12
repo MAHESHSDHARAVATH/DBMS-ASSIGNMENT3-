@@ -22,8 +22,8 @@ header {
 }
 
 .logout-icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
 }
 
@@ -37,9 +37,10 @@ header {
 .logout-text {
     margin-left: 5px;
     font-weight: bold;
+    color: white;
 }
 
-h1.title {
+h1 {
     text-align: center;
     margin: 0;
 }
@@ -48,7 +49,7 @@ h1.title {
 #sidebar {
     position: fixed;
     left: -250px;
-    width: 250px;
+    width: 210px;
     height: 100%;
     background: #111;
     transition: all 0.3s ease;
@@ -77,6 +78,7 @@ h1.title {
 /* Main content styles */
 main {
     padding: 20px;
+    /* background-color: rgb(220, 249, 249); change accordingly */
 }
 
 .content-container {
@@ -87,7 +89,7 @@ main {
 
 .search-bar {
     margin-bottom: 20px;
-    width: 50%; /* Adjust as needed */
+    width: 40%;
 }
 
 .button-container {
@@ -99,13 +101,13 @@ main {
 }
 
 table {
-    width: 80%; /* Adjust as needed */
+    width: 70%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
 
 table th, table td {
-    border: 1px solid #ddd;
+    border: 2px solid #dddddd;
     padding: 8px;
     text-align: left;
 }
@@ -114,6 +116,17 @@ table th {
     background-color: #030804;
     color: white;
 }
+
+.form-group {
+    margin-bottom: 8px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+}
+
 
 /* Footer styles */
 footer {

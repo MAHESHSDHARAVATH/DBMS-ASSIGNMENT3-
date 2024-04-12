@@ -26,7 +26,7 @@
     <aside id="sidebar">
         <nav>
             <ul>
-                <li><a href="{{ url_for('outlet_management') }}">Home</a></li>
+                <li><a href="{{ url_for('outlet_management') }}">Outlet Management</a></li>
                 <li><a href="{{url_for('stakeholder_details')}}">Stakeholder Details</a></li>
                 {% if user_type=='stakeholder' %}
                 <li><a href="{{url_for('inventory_details')}}">Inventory Details</a></li>
@@ -60,7 +60,9 @@
                         <th>Stakeholder name</th>
                         <th>Description</th>
                         <th>Warning Issued</th>
+                        {% if user_type=='stakeholder' %}
                         <th>Penalty Amount</th>
+                        {% endif %}
                         
                        
                     </tr>
@@ -73,7 +75,10 @@
                         <td>{{ survey[3] }}</td> <!-- Stakeholder -->
                         <td>{{ survey[4] }}</td> <!-- Description -->
                         <td>{{ survey[5] }}</td> <!-- Warning Issued -->
+                        {% if user_type=='stakeholder' %}
                         <td>{{ survey[6] }}</td> <!-- Penalty -->
+                        {% endif %}
+                        
                         
                     </tr>
                     {% endfor %}
