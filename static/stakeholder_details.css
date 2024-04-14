@@ -78,7 +78,7 @@ h1 {
 /* Main content styles */
 main {
     padding: 20px;
-    /* background-color: rgb(220, 249, 249); change accordingly */
+    /* background-color: rgb(253, 253, 235);  */
 }
 
 .content-container {
@@ -97,7 +97,7 @@ main {
     width: 300px; 
     height: 100px;
     top: 90px;
-    right:60px;
+    right:90px;
 }
 
 table {

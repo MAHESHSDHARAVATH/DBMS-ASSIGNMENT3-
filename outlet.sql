@@ -297,7 +297,7 @@ select  * from storing_img ;
 CREATE TABLE student_credentials (
   name VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  Password VARCHAR(50) UNIQUE,
+  Password VARCHAR(50) NOT NULL,
   CONSTRAINT PK_User PRIMARY KEY (email)
 );
 

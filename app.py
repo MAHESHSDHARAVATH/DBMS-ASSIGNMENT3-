@@ -159,6 +159,8 @@ def login_user():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    msg = ""
+    
     if request.method == "POST":
         name = request.form['fullname']
         email = request.form['email']
@@ -182,17 +184,13 @@ def signup():
         else:
             # Insert the new user into the student_credentials table
             cur.execute("INSERT INTO student_credentials (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
+            msg = "Customer {} Added!".format(name)
             mysql.connection.commit()
-            return """
-            <script>
-            alert("Signup successful. You can now login.");
-            window.location.href = "{}";
-            </script>
-            """.format(url_for("login"))
-        
-        cur.close()
+            cur.close()
 
-    return render_template("signup.html")
+
+    return render_template("signup.html", stakeholder_name = msg)
+
 
 
 @app.route("/outlet_management", methods=['GET', 'POST'])
