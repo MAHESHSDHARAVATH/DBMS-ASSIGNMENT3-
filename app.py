@@ -246,8 +246,10 @@ def update():
         stakeholder_id = session.get("stakeholder_id")
         cur = mysql.connection.cursor()
         cur.execute("""
+            LOCK TABLES Outlet WRITE;
             UPDATE Outlet SET Outlet_name=%s, Location_name=%s, Contact_No=%s, timings=%s, Ratings=%s
             WHERE Outlet_ID LIKE %s
+            UNLOCK TABLES;
             """, (name, Location, Contact, Timings, Rating, id_data))
 
         flash("Data Updated Successfully")
