@@ -97,11 +97,11 @@ main {
     width: 300px; 
     height: 100px;
     top: 90px;
-    right:60px;
+    right:250px;
 }
 
 table {
-    width: 70%;
+    width: 65%;
     border-collapse: collapse;
     margin-bottom: 20px;
 }
