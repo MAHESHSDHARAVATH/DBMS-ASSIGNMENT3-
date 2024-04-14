@@ -41,9 +41,10 @@ def login_user():
 
     if user_type == "stakeholder":
         # cur.execute("SELECT * FROM stakeholder WHERE email = %s AND password = %s", (email, password))
-        query = f"SELECT * FROM stakeholder WHERE email = '{email}' and password = '{password}'"
+        # query = f"SELECT * FROM stakeholder WHERE email = '{email}' and password = '{password}'"
+        query = f"SELECT * FROM stakeholder WHERE email = %s and password = %s"
         # print(query)
-        cur.execute(query)
+        cur.execute(query,(email, password))
         stakeholder = cur.fetchone()
         cur.close()
             
