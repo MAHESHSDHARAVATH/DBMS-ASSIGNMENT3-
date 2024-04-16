@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
-from datetime import datetime
+from datetime import datetime, timedelta
 import sys
+import html
+import re
 
 app = Flask(__name__)
 
@@ -15,6 +17,8 @@ mysql = MySQL(app)
 
 app.secret_key = "supersecretkey"
 
+# Regular expression pattern to match HTML or JavaScript tags
+HTML_JS_REGEX = re.compile(r'<.*?>|<script.*?>.*?</script>', re.IGNORECASE)
 
 def get_stakeholder_id(email):
     cur = mysql.connection.cursor()
@@ -28,13 +32,44 @@ def get_stakeholder_id(email):
     
 
 
+login_count = {}
+
 @app.route("/")
 def login():
     return render_template("login.html")
 
+@app.before_request
+def reset_login_count():
+    current_time = datetime.now()
+    thirty_minutes_ago = current_time - timedelta(minutes=30)
+    
+    for email, info in list(login_count.items()):
+        last_login_time = info['last_login_time']
+        if last_login_time < thirty_minutes_ago:
+            login_count[email]['login_count'] = 0
+
+
 @app.route("/login", methods=["POST"])
 def login_user():
+
+    # app.logger.error("BODY: %s" % request.get_data())
     email = request.form.get("username")
+
+    # Update last login time
+    login_count.setdefault(email, {'login_count': 0})['last_login_time'] = datetime.now()
+
+    # Increment login count
+    login_count[email]['login_count'] += 1
+
+
+    if login_count[email]['login_count'] > 3:
+        return """
+        <script>
+        alert("Too many login attempts. Please try again after 30 minutes.");
+        window.location.href = "/";
+        </script>
+        """
+
     password = request.form.get("password")
     user_type = request.form.get("userType")
     cur = mysql.connection.cursor()
@@ -42,7 +77,7 @@ def login_user():
     if user_type == "stakeholder":
         # cur.execute("SELECT * FROM stakeholder WHERE email = %s AND password = %s", (email, password))
         query = f"SELECT * FROM stakeholder WHERE email = '{email}' and password = '{password}'"
-        # print(query)
+        print(query)
         cur.execute(query)
         stakeholder = cur.fetchone()
         cur.close()
@@ -59,12 +94,8 @@ def login_user():
             """.format(url_for("outlet_management"))
         
         else:
-            return """
-            <script>
-            alert("Login Failed");
-            window.location.href = "/";
-            </script>
-            """
+            flash("Login failed. Please check your credentials and try again.", "error")
+            return redirect(url_for("login"))
         
     elif user_type == "student":
         cur.execute("SELECT * FROM student_credentials WHERE email = %s AND password = %s", (email, password))
@@ -82,12 +113,8 @@ def login_user():
             </script>
             """.format(url_for("outlet_management"))
         else:
-            return """
-            <script>
-            alert("Login Failed");
-            window.location.href = "/";
-            </script>
-            """
+            flash("Login failed. Please check your credentials and try again.", "error")
+            return redirect(url_for("login"))
     else:
         return """
         <script>
@@ -95,7 +122,6 @@ def login_user():
         window.location.href = "/";
         </script>
         """
-
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -108,6 +134,15 @@ def signup():
         password = request.form['password']
         confirm_password = request.form['confirmPassword']
         user_type = request.form['userType']
+
+        # Input validation
+        # if HTML_JS_REGEX.search(name) or HTML_JS_REGEX.search(email) or HTML_JS_REGEX.search(password) or HTML_JS_REGEX.search(confirm_password):
+        #     return """
+        #     <script>
+        #     alert("Input contains invalid characters.");
+        #     window.location.href = "{}";
+        #     </script>
+        #     """.format(url_for("signup"))
 
         # Check if passwords match
         if password != confirm_password:
@@ -125,7 +160,7 @@ def signup():
         else:
             # Insert the new user into the student_credentials table
             cur.execute("INSERT INTO student_credentials (name, email, password) VALUES (%s, %s, %s)", (name, email, password))
-            msg = "Customer {} Added!".format(name)
+            msg = "Student {} registered successfully!".format(name)
             mysql.connection.commit()
             cur.close()
 
